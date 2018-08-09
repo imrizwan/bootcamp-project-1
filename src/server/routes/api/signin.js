@@ -33,8 +33,6 @@ module.exports = (app) => {
             })
         }
 
-        console.log("HERE: ", username + " : " + email + " : " + password)
-
         email = email.toLowerCase();
 
         //Marching Email if doesn't exist

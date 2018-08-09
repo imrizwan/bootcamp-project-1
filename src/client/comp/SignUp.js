@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Header from "./Header";
+import './SignUp.css';
 import { getFromStorage, setInStorage } from "../utils/storage";
 
 var url = `http://localhost:8080/api/`;
@@ -11,8 +12,6 @@ export default class SignUp extends Component {
       password: "",
       email: "",
       signUpError: "",
-      isLoading: true,
-      token: '',
     };
   }
 
@@ -23,12 +22,7 @@ export default class SignUp extends Component {
 
   onClick = () => {
     const { username, email, password } = this.state;
-    console.log(username, email);
     // post request
-
-    this.setState({
-      isLoading: true
-    });
 
     fetch(url + 'signup', {
       method: 'POST',
@@ -47,90 +41,79 @@ export default class SignUp extends Component {
       .then(json => {
 
         if (json.success) {
+          console.log(json.message);
+          console.log(json.success);
           this.setState({
             signUpError: json.message,
-            isLoading: false
           })
         } else {
           this.setState({
             signUpError: json.message,
-            isLoading: false
           })
         }
       })
   };
 
-
-  componentDidMount() {
-    const token = getFromStorage('olx');
-    if (token) {
-      //Verify token here
-      fetch(url + "verify?token=" + token)
-        .then(res => res.json())
-        .then(json => {
-          if (json.success) {
-            this.setState({
-              token: token,
-              isLoading: false
-            });
-          } else {
-            this.setState({
-              isLoading: false
-            });
-          }
-        })
-    } else {
-      this.setState({
-        isLoading: false
-      });
-    }
-  }
-
   render() {
 
-    const { signUpError, username, email, password, isLoading, token } = this.state;
+    const { signUpError, username, email, password } = this.state;
 
-    if (isLoading) {
-      return (<div><p>Loading...</p></div>);
-    }
-
-    if (!token) {
-      return (
-        <div>
-          {
-            (signUpError) ? <p>{signUpError}</p> : (null)
-          }
-          <h1>Sign Up</h1>
-          <input
-            type="text"
-            name="username"
-            onChange={this.handleChange}
-            placeholder="Username"
-            value={username}
-          />
-          <input
-            type="email"
-            name="email"
-            onChange={this.handleChange}
-            placeholder="Email"
-            value={email}
-          />
-          <input
-            type="password"
-            name="password"
-            onChange={this.handleChange}
-            placeholder="Password"
-            value={password}
-          />
-          <button onClick={this.onClick}>Submit</button>
+    return (
+      <div>
+        <Header />
+        <div className="jumbotron jumbotron-fluid Signup">
+          <div className="container">
+            {
+              (signUpError) ? (
+                <div className="alert alert-primary" role="alert">
+                  {signUpError}
+                </div>
+              ) : (null)
+            }
+            <h1 className="display-4">Sign Up</h1>
+            <div className="input-group input-group-lg">
+              <div className="input-group-prepend">
+                <span className="input-group-text lead" id="inputGroup-sizing-lg">Username</span>
+              </div>
+              <input
+                type="text"
+                name="username"
+                onChange={this.handleChange}
+                className="form-control"
+                placeholder="Username"
+                value={username}
+              />
+            </div>
+            <div className="input-group input-group-lg">
+              <div className="input-group-prepend">
+                <span className="input-group-text lead" id="inputGroup-sizing-lg">Email &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+              </div>
+              <input
+                type="email"
+                name="email"
+                onChange={this.handleChange}
+                className="form-control"
+                placeholder="Email"
+                value={email}
+              />
+            </div>
+            <div className="input-group input-group-lg">
+              <div className="input-group-prepend">
+                <span className="input-group-text lead" id="inputGroup-sizing-lg">Password&nbsp;</span>
+              </div>
+              <input
+                type="password"
+                name="password"
+                onChange={this.handleChange}
+                className="form-control"
+                placeholder="Password"
+                value={password}
+              />
+            </div>
+            <button className="btn btn-outline-primary btn-lg lead" onClick={this.onClick}>Submit</button>
+          </div>
         </div>
-      );
-
-      return (
-        <div>
-          <Header isAuth={true} />
-        </div>
-      );
-    }
+      </div>
+    );
   }
 }

@@ -1,66 +1,119 @@
 import React, { Component } from "react";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
 import Header from "./Header";
-import { Link } from "react-router-dom";
+import { Redirect } from 'react-router-dom'
 import { getFromStorage, setInStorage } from "../utils/storage";
 
 const url = `http://localhost:8080/api/`;
 
 export default class Dashboard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoading: true,
-      token: '',
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoading: true,
+            token: '',
+        }
     }
-  }
 
-  componentDidMount() {
-    const token = getFromStorage('olx');
-    if (token) {
-      //Verify token here
-      fetch(url + "verify?token=" + token)
-        .then(res => res.json())
-        .then(json => {
-          if (json.success) {
+    componentDidMount() {
+        const obj = getFromStorage('olx');
+        if (obj && obj.token) {
+            const { token } = obj;
+            //Verify token here
+            fetch(url + "verify?token=" + token)
+                .then(res => res.json())
+                .then(json => {
+                    if (json.success) {
+                        this.setState({
+                            token: token,
+                            isLoading: false
+                        });
+                    } else {
+                        this.setState({
+                            isLoading: false
+                        });
+                    }
+                })
+        } else {
             this.setState({
-              token: token,
-              isLoading: false
+                isLoading: false
             });
-          } else {
+        }
+    }
+
+    logout = () => {
+
+        this.setState({
+            isLoading: true
+        });
+
+        const obj = getFromStorage('olx');
+        if (obj && obj.token) {
+            const { token } = obj;
+            //Verify token here
+            fetch(url + "logout?token=" + token)
+                .then(res => res.json())
+                .then(json => {
+                    if (json.success) {
+                        this.setState({
+                            token: '',
+                            isLoading: false
+                        });
+                    } else {
+                        this.setState({
+                            isLoading: false
+                        });
+                    }
+                })
+        } else {
             this.setState({
-              isLoading: false
+                isLoading: false
             });
-          }
-        })
-    } else {
-      this.setState({
-        isLoading: false
-      });
-    }
-  }
+        }
 
-  render() {
-
-    const { isLoading, token } = this.state;
-
-    if (isLoading) {
-      return (<div><p>Loading...</p></div>);
     }
 
-    if (!token) {
-      return (
-        <div>
-          <Header />
-        </div>
-      )
-    }
+    render() {
 
-    return (
-      <div>
-        <Header isAuth={true} />
-      </div>
-    );
-  }
+        const { isLoading, token } = this.state;
+
+        if (isLoading) {
+            return (<div><p>Loading...</p></div>);
+        }
+        if (token) {
+            return (
+                <div>
+                    <Header isAuth={true} />
+                    Dashboard
+
+                <button onClick={this.logout}>Logout</button>
+                </div>
+            )
+        }
+
+        return (
+            <div>
+                <Redirect to='/signin' />
+            </div>
+        );
+
+        // const { isLoading, token } = this.state;
+
+        // if (isLoading) {
+        //     return (<div><p>Loading...</p></div>);
+        // }
+
+        // if (!token) {
+        //     return (
+        //         <div>
+        //             <Header />
+        //         </div>
+        //     )
+        // }
+
+        // return (
+        //     <div>
+        //         <Dashboard />
+        //     </div>
+        // );
+    }
 }

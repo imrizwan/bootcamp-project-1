@@ -5,6 +5,7 @@ class Header extends React.Component {
 
     constructor(props) {
         super(props);
+        console.log(this.props.isAuth);
     }
 
     render() {
@@ -26,9 +27,12 @@ class Header extends React.Component {
                                     <Link to='/dashboard' className='nav-link'>Account</Link>
                                 </li>
                             ) : (
-
-                                    <li className='nav-item'>
-                                        <Link to='/signup' className='nav-link'>Join OLX</Link>
+                                    <li className="nav-item dropdown">
+                                        <Link to='/signup' className='nav-link dropdown-toggle' id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Join OLX</Link>
+                                        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <Link to='/signin' className='dropdown-item'>Sign In</Link>
+                                            <Link to='/signup' className='dropdown-item'>Sign Up</Link>
+                                        </div>
                                     </li>
                                 )}
                             <li className="nav-item dropdown">
