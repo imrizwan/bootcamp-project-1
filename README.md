@@ -1,11 +1,8 @@
-# simple-react-full-stack
-
-[![Build Status](https://travis-ci.org/crsandeep/simple-react-full-stack.svg?branch=master)](https://travis-ci.org/crsandeep/simple-react-full-stack)
-[![Greenkeeper badge](https://badges.greenkeeper.io/crsandeep/simple-react-full-stack.svg)](https://greenkeeper.io/)
+# OLX PWA
 
 This is a boilerplate to build a full stack web application using React, Node.js, Express and Webpack. It is also configured with webpack-dev-server, eslint, prettier and babel.
 
-- [simple-react-full-stack](#simple-react-full-stack)
+- [OLX](#OLX)
   - [Introduction](#introduction)
     - [Development mode](#development-mode)
     - [Production mode](#production-mode)
@@ -40,10 +37,10 @@ In the production mode, we will have only 1 server running. All the client side 
 
 ```bash
 # Clone the repository
-git clone https://github.com/crsandeep/simple-react-full-stack
+git clone https://github.com/imrizwan/bootcamp-project-1
 
 # Go inside the directory
-cd simple-react-full-stack
+cd olx
 
 # Install dependencies
 yarn (or npm install)
@@ -213,7 +210,7 @@ app.get("/api/getUsername", (req, res) =>
 app.listen(8080, () => console.log("Listening on port 8080!"));
 ```
 
-This starts a server and listens on port 8080 for connections. The app responds with `{username: <username>}` for requests to the URL (/api/getUsername). It is also configured to serve the static files from **dist** directory.
+This starts a server and listens on port 8080 for connections.
 
 ### Concurrently
 
@@ -242,5 +239,3 @@ This starts a server and listens on port 8080 for connections. The app responds 
     "editor.formatOnSave": true,
     "prettier.eslintIntegration": true
     ```
-
-Above, we have modified editor configurations. Alternatively, this can be configured at the project level by following [this article](https://medium.com/@netczuk/your-last-eslint-config-9e35bace2f99).
