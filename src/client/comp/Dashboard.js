@@ -13,7 +13,37 @@ export default class Dashboard extends Component {
         this.state = {
             isLoading: true,
             token: '',
-            username: ''
+            username: '',
+            ads: ''
+        }
+    }
+
+    componentDidMount() {
+        const obj = getFromStorage('olx');
+        if (obj && obj.userId) {
+            const { userId } = obj;
+            //Verify token here
+            fetch(url + 'dashboard', {
+                method: 'POST',
+                mode: "cors",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Accept": "application/json",
+                },
+                body: JSON.stringify({
+                  userId: userId
+                })
+              })
+              .then(res => res.json())
+              .then(json => {
+                  this.setState({
+                      ads: json.ads
+                  })
+              })
+        } else {
+            this.setState({
+                isLoading: false
+            });
         }
     }
 
@@ -43,6 +73,7 @@ export default class Dashboard extends Component {
             });
         }
     }
+
 
     logout = () => {
 
@@ -78,7 +109,7 @@ export default class Dashboard extends Component {
 
     render() {
 
-        const { isLoading, token, username } = this.state;
+        const { isLoading, token, username, ads } = this.state;
 
         if (isLoading) {
             return (<Loader />);

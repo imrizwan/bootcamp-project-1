@@ -33,7 +33,7 @@ class PropertiesForm extends React.Component {
             location: "",
             name: "",
             phone: "",
-            file: null
+            file: []
         }
     }
 
@@ -46,18 +46,21 @@ class PropertiesForm extends React.Component {
         }
     }
 
-    handleChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value });
+    fileSelectedHandler = (e) => {
+        console.log(e.target.files[0])
+        this.setState({
+            file: e.target.files[0]
+        })
     }
 
-    handlePictures = (Files) => {
-        this.setState({ file: Files[0] });
+    handleChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value });
     }
 
 
     onClick = () => {
         const {
-            userId, majorCategory, category, type, description, price, bedrooms, bathrooms, furnishing, constructionstatus, listedby, SBArea, carpetArea, bachelorsallowed, maintenance, totalFloors, floorNumber, carparking, facing, projectname, location, name, phone
+            userId, majorCategory, category, type, description, price, bedrooms, bathrooms, furnishing, constructionstatus, listedby, SBArea, carpetArea, bachelorsallowed, maintenance, totalFloors, floorNumber, carparking, facing, projectname, location, name, phone, file
         } = this.state;
         // post request
 
@@ -92,6 +95,7 @@ class PropertiesForm extends React.Component {
                 location: location,
                 name: name,
                 phone: phone,
+                file: file
             })
         })
             .then(res => res.json())
@@ -125,7 +129,7 @@ class PropertiesForm extends React.Component {
                     <h1 className="display-4">Submit Ad</h1>
                     <div className="form-group">
                         <div className="custom-file">
-                            <input type="file" className="custom-file-input" id="photos" accept="image/x-png,image/gif,image/jpeg,image/jpg" multiple onChange={(e) => this.handlePictures(e.target.files)} required />
+                            <input type="file" className="custom-file-input" id="photos" onChange={this.fileSelectedHandler} accept="image/x-png,image/gif,image/jpeg,image/jpg" multiple required />
                             <label className="custom-file-label" htmlFor="photos">Add Photos</label>
                         </div>
                         <hr />

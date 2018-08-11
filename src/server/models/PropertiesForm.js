@@ -93,7 +93,8 @@ var PropertiesFormSchema = new Schema({
     phone: {
         type: String,
         default: ''
-    }
+    },
+    file: { data: Buffer, contentType: String }
 });
 
 module.exports = mongoose.model("PropertiesForm", PropertiesFormSchema);

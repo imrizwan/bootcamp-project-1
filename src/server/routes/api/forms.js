@@ -28,7 +28,8 @@ module.exports = (app) => {
             projectname,
             location,
             name,
-            phone
+            phone,
+            file
         } = body;
 
         if (!type) {
@@ -178,6 +179,7 @@ module.exports = (app) => {
         newForm.location = location;
         newForm.name = name;
         newForm.phone = phone;
+        newForm.file = file;
 
         newForm.save((err, user) => {
             if (err) {
@@ -226,5 +228,25 @@ module.exports = (app) => {
         //     });
         // });
     });
+
+    app.post('/api/dashboard', function (req, res, next) {
+
+        const { body } = req;
+        const { userId } = body;
+        console.log(userId);
+        PropertiesForm.find({
+            userId: userId
+        }, (err, ads) => {
+            if(err){
+                console.log("ERROR FROM DASHBOARD", err);
+            } else if(ads.length > 0){
+                return res.send({
+                    success: true,
+                    ads: ads
+                });
+            }
+        });
+    });
+
 
 }
