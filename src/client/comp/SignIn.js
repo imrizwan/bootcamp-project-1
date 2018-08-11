@@ -68,7 +68,7 @@ export default class SignIn extends Component {
       .then(res => res.json())
       .then(json => {
         if (json.success) {
-          setInStorage('olx', { token: json.token, 'username': json.username })
+          setInStorage('olx', { token: json.token, 'username': json.username, 'userId': json.userId })
           this.setState({
             signInError: json.message,
             token: json.token

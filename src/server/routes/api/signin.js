@@ -134,7 +134,8 @@ module.exports = (app) => {
                     success: true,
                     message: "Valid Sign In!",
                     token: doc._id,
-                    username: user.username
+                    username: user.username,
+                    userId: user._id
                 });
             });
         });

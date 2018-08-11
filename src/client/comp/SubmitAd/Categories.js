@@ -23,7 +23,7 @@ export default class Categories extends React.Component {
     componentWillMount() {
         const obj = getFromStorage('olx');
         if (obj && obj.token) {
-            const { token, username } = obj;
+            const { token, username, userId } = obj;
             //Verify token here
             fetch(url + "verify?token=" + token)
                 .then(res => res.json())
@@ -32,6 +32,7 @@ export default class Categories extends React.Component {
                         this.setState({
                             token: token,
                             username: username,
+                            userId: userId,
                             isLoading: false
                         });
                     } else {
@@ -102,7 +103,7 @@ export default class Categories extends React.Component {
 
     render() {
 
-        const { isLoading, token, username } = this.state;
+        const { isLoading, token } = this.state;
 
         if (isLoading) {
             return (<Loader />);

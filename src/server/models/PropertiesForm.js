@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var PropertiesFormSchema = new Schema({
-    formId: {
+    userId: {
         type: String,
         default: ''
     },
