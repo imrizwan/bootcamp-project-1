@@ -1579,6 +1579,10 @@ cssesc@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmjs.org/cssesc/-/cssesc-0.1.0.tgz#c814903e45623371a0477b40109aaafbeeaddbb4"
 
+csspin@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/csspin/-/csspin-1.1.4.tgz#e439a17b4098b914dfb7790d0d07c032856ce382"
+
 currently-unhandled@^0.4.1:
   version "0.4.1"
   resolved "https://registry.npmjs.org/currently-unhandled/-/currently-unhandled-0.4.1.tgz#988df33feab191ef799a61369dd76c17adf957ea"

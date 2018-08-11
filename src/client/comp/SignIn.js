@@ -3,6 +3,7 @@ import Header from "./Header";
 import Dashboard from "./Dashboard";
 import { Redirect } from 'react-router-dom'
 import './SignUp.css';
+import Loader from './loader';
 import { getFromStorage, setInStorage } from "../utils/storage";
 
 var url = `http://localhost:8080/api/`;
@@ -66,9 +67,8 @@ export default class SignIn extends Component {
     })
       .then(res => res.json())
       .then(json => {
-
         if (json.success) {
-          setInStorage('olx', { token: json.token })
+          setInStorage('olx', { token: json.token, 'username': json.username })
           this.setState({
             signInError: json.message,
             token: json.token
@@ -86,7 +86,7 @@ export default class SignIn extends Component {
     const { signInError, email, password, isLoading, token } = this.state;
 
     if (isLoading) {
-      return (<div><p>Loading...</p></div>);
+      return (<Loader />);
     }
 
     if (!token) {
