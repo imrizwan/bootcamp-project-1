@@ -14,7 +14,8 @@ export default class Dashboard extends Component {
             isLoading: true,
             token: '',
             username: '',
-            ads: ''
+            ads: '',
+            value: ''
         }
     }
 
@@ -107,6 +108,27 @@ export default class Dashboard extends Component {
 
     }
 
+    handleChange = (e) => {
+        this.setState({ value: e.target.value })
+        switch (e.target.value) {
+            case 'properties':
+                this.props.history.push('/dashboard/properties');
+                break;
+            case 'cars':
+                this.props.history.push('/dashboard/cars');
+                break;
+            case 'electronics':
+                this.props.history.push('/dashboard/electronics');
+                break;
+            case 'furniture':
+                this.props.history.push('/dashboard/furniture');
+                break;
+            default:
+                console.log("Nothing");
+                break;
+        }
+    }
+
     render() {
 
         const { isLoading, token, username, ads } = this.state;
@@ -119,6 +141,15 @@ export default class Dashboard extends Component {
                 <div>
                     <Header isAuth={true} />
                     <SecureHeader logout={this.logout} username={username} />
+                <div className="form-group" style={{ width: '80%', margin: '0 auto', padding: '20px 0 20px 0' }}>
+                    <select className="form-control form-control-lg" value={this.state.value} onChange={this.handleChange}>
+                        <option value="">Select Ad Category...</option>
+                        <option value="properties">Properties</option>
+                        <option value="cars">Cars</option>
+                        <option value="electronics">Electronics &amp; Appliances</option>
+                        <option value="furniture">Furniture</option>
+                    </select>
+                </div>
                 </div>
             )
         }
