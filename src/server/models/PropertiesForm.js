@@ -94,7 +94,10 @@ var PropertiesFormSchema = new Schema({
         type: String,
         default: ''
     },
-    file: { data: Buffer, contentType: String }
+    timeStamp: {
+        type: Date,
+        default: Date.now()
+    }
 });
 
 module.exports = mongoose.model("PropertiesForm", PropertiesFormSchema);

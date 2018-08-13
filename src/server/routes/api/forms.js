@@ -232,21 +232,84 @@ module.exports = (app) => {
     app.post('/api/dashboard', function (req, res, next) {
 
         const { body } = req;
-        const { userId } = body;
-        console.log(userId);
-        PropertiesForm.find({
-            userId: userId
-        }, (err, ads) => {
-            if(err){
-                console.log("ERROR FROM DASHBOARD", err);
-            } else if(ads.length > 0){
-                return res.send({
-                    success: true,
-                    ads: ads
-                });
-            }
-        });
+        const { userId, category } = body;
+        console.log(userId, category);
+        if (category === 'all') {
+            PropertiesForm.find({
+                userId: userId,
+            }, (err, ads) => {
+                if (err) {
+                    console.log("ERROR FROM DASHBOARD", err);
+                } else if (ads.length > 0) {
+                    return res.send({
+                        success: true,
+                        ads: ads
+                    });
+                }
+            });
+        } else {
+            PropertiesForm.find({
+                userId: userId,
+                category: category
+            }, (err, ads) => {
+                if (err) {
+                    console.log("ERROR FROM DASHBOARD", err);
+                } else if (ads.length > 0) {
+                    return res.send({
+                        success: true,
+                        ads: ads
+                    });
+                }
+            });
+        }
     });
 
+    app.post('/api/public', function (req, res, next) {
+
+        const { body } = req;
+        const { userId, category, majorCategory } = body;
+        console.log(userId, majorCategory, category);
+
+        if (majorCategory === 'Properties' && category !== 'all') {
+            PropertiesForm.find({
+                majorCategory: majorCategory,
+                category: category
+            }, (err, ads) => {
+                if (err) {
+                    console.log("ERROR FROM DASHBOARD", err);
+                } else if (ads.length > 0) {
+                    return res.send({
+                        success: true,
+                        ads: ads
+                    });
+                }
+            });
+        } else if (majorCategory === 'showall') {
+            PropertiesForm.find({
+            }, (err, ads) => {
+                if (err) {
+                    console.log("ERROR FROM DASHBOARD", err);
+                } else if (ads.length > 0) {
+                    return res.send({
+                        success: true,
+                        ads: ads
+                    });
+                }
+            });
+        } else if (((majorCategory === 'Properties' && category === 'all') || (majorCategory === 'Properties')) || ((majorCategory === 'Cars' && category === 'all') || (majorCategory === 'Cars'))) {
+            PropertiesForm.find({
+                majorCategory: majorCategory
+            }, (err, ads) => {
+                if (err) {
+                    console.log("ERROR FROM DASHBOARD", err);
+                } else if (ads.length > 0) {
+                    return res.send({
+                        success: true,
+                        ads: ads
+                    });
+                }
+            });
+        }
+    });
 
 }

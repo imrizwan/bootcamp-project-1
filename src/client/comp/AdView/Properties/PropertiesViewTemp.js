@@ -9,33 +9,37 @@ export default class PropertiesViewTemp extends React.Component {
         this.state = {
             value: "",
             ads: '',
+            isFetching: true
         }
     }
 
-    componentWillMount() {
-        const obj = getFromStorage('olx');
-        if (obj && obj.userId) {
-            const { userId } = obj;
-            //Verify token here
-            fetch(url + 'dashboard', {
-                method: 'POST',
-                mode: "cors",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-                },
-                body: JSON.stringify({
-                    userId: userId
-                })
-            })
-                .then(res => res.json())
-                .then(json => {
-                    this.setState({
-                        ads: json.ads
-                    })
-                })
-        }
-    }
+    // componentDidMount() {
+    //     if (this.state.isFetching) {
+    //         const obj = getFromStorage('olx');
+    //         if (obj && obj.userId) {
+    //             const { userId } = obj;
+    //             //Verify token here
+    //             fetch(url + 'dashboard', {
+    //                 method: 'POST',
+    //                 mode: "cors",
+    //                 headers: {
+    //                     "Content-Type": "application/json",
+    //                     "Accept": "application/json",
+    //                 },
+    //                 body: JSON.stringify({
+    //                     userId: userId
+    //                 })
+    //             })
+    //                 .then(res => res.json())
+    //                 .then(json => {
+    //                     this.setState({
+    //                         ads: json.ads,
+    //                         isFetching: false
+    //                     })
+    //                 })
+    //         }
+    //     }
+    // }
 
 
 
@@ -46,10 +50,11 @@ export default class PropertiesViewTemp extends React.Component {
             return (
                 <div>
                     <div className="card-deck" style={{ width: '80%', margin: '0 auto', padding: '20px 0 20px 0' }}>
-                        {ads.map((ad, i) => <div key={i}>{ad.userId}</div>)}
+                        {/*ads.map((ad, i) => <div key={i}>{ad.userId}</div>)*/}
+                        Hello
                     </div>
                 </div>
             )
-        } else return (null);
+        } else return (<div>Fetching...</div>);
     }
 }
