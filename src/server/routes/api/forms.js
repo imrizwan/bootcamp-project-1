@@ -232,9 +232,25 @@ module.exports = (app) => {
     app.post('/api/dashboard', function (req, res, next) {
 
         const { body } = req;
-        const { userId, category } = body;
-        console.log(userId, category);
-        if (category === 'all') {
+        const { userId, category, majorCategory } = body;
+        console.log(userId, majorCategory, category);
+
+        if (majorCategory === 'Properties' && category !== 'all') {
+            PropertiesForm.find({
+                userId: userId,
+                majorCategory: majorCategory,
+                category: category
+            }, (err, ads) => {
+                if (err) {
+                    console.log("ERROR FROM DASHBOARD", err);
+                } else if (ads.length > 0) {
+                    return res.send({
+                        success: true,
+                        ads: ads
+                    });
+                }
+            });
+        } else if (majorCategory === 'showall') {
             PropertiesForm.find({
                 userId: userId,
             }, (err, ads) => {
@@ -247,10 +263,10 @@ module.exports = (app) => {
                     });
                 }
             });
-        } else {
+        } else if (((majorCategory === 'Properties' && category === 'all') || (majorCategory === 'Properties')) || ((majorCategory === 'Cars' && category === 'all') || (majorCategory === 'Cars'))) {
             PropertiesForm.find({
                 userId: userId,
-                category: category
+                majorCategory: majorCategory
             }, (err, ads) => {
                 if (err) {
                     console.log("ERROR FROM DASHBOARD", err);
@@ -310,6 +326,59 @@ module.exports = (app) => {
                 }
             });
         }
+    });
+
+
+    app.post('/api/getadbyid', function (req, res, next) {
+
+        const { body } = req;
+        const { _id } = body;
+
+        PropertiesForm.find({
+            _id: _id
+        }, (err, ads) => {
+            if (err) {
+                console.log("ERROR FROM DASHBOARD", err);
+            } else if (ads.length > 0) {
+                return res.send({
+                    success: true,
+                    ads: ads
+                });
+            }
+        });
+    });
+
+    app.post('/api/edit', function (req, res, next) {
+        PropertiesForm.findByIdAndUpdate({
+            _id: _id
+        }, (err, ads) => {
+            if (err) {
+                console.log("ERROR FROM DASHBOARD", err);
+            } else if (ads.length > 0) {
+                return res.send({
+                    success: true,
+                    ads: ads
+                });
+            }
+        });
+    });
+
+    app.post('/api/delete', function (req, res, next) {
+
+        const { _id } = req.body;
+
+        PropertiesForm.findByIdAndRemove({
+            _id: _id
+        }, (err, ads) => {
+            if (err) {
+                console.log("ERROR FROM DASHBOARD", err);
+            } else if (ads.length > 0) {
+                return res.send({
+                    success: true,
+                    ads: ads
+                });
+            }
+        });
     });
 
 }

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import Header from "./Header";
 import { Redirect } from 'react-router-dom'
-import { getFromStorage, setInStorage } from "../utils/storage";
+import { getFromStorage } from "../utils/storage";
 import Loader from './loader';
 import SecureHeader from './secureHeader';
+import Desc from "./Desc";
 
 const url = `http://localhost:8080/api/`;
-
 export default class Dashboard extends Component {
     constructor(props) {
         super(props);
@@ -18,7 +18,8 @@ export default class Dashboard extends Component {
             value: '',
             majorCategory: '',
             category: '',
-            dom: <div></div>
+            redirect: false,
+            redirectKey: ""
         }
     }
 
@@ -86,34 +87,11 @@ export default class Dashboard extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    value = (e) => {
-        return this.state.type;
-    }
-
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
-
-
-        if (e.target.value === 'Properties') {
-            this.setState({
-                dom: <select className="form-control form-control-lg" name="category" value={this.state.category} onChange={this.handleChangeCategory}>
-                    <option value="" >Select Ad Type</option>
-                    <option value="all">Show All</option>
-                    <option value="For Rent">For Rent</option>
-                    <option value="For Sale">For Sale</option>
-                    <option value="New Projects">New Projects</option>
-                </select>
-            });
-        } else if (e.target.value === 'cars') {
-            this.setState({
-                dom: <select className="form-control form-control-lg" name="category" value={this.state.category} onChange={this.handleChangeCategory}>
-                    <option value="Cars">Cars</option>
-                </select>
-            });
-        }
     }
 
-    fetchAdsFromDatabse = (category) => {
+    fetchAdsFromDatabse = (majorCategory, category) => {
         const obj = getFromStorage('olx');
         if (obj && obj.userId) {
             const { userId } = obj;
@@ -127,7 +105,8 @@ export default class Dashboard extends Component {
                 },
                 body: JSON.stringify({
                     userId: userId,
-                    category: category
+                    category: category,
+                    majorCategory: majorCategory
                 })
             })
                 .then(res => res.json())
@@ -141,20 +120,46 @@ export default class Dashboard extends Component {
 
     showAds = (e) => {
 
-        if (this.state.majorCategory === 'Properties' && this.state.category === 'For Rent') {
-            this.fetchAdsFromDatabse("For Rent");
-        } else if (this.state.majorCategory === 'Properties' && this.state.category === 'For Sale') {
-            this.fetchAdsFromDatabse("For Sale");
-        } else if (this.state.majorCategory === 'Properties' && this.state.category === 'New Projects') {
-            this.fetchAdsFromDatabse("New Projects");
-        } else if (this.state.majorCategory === 'Properties' && this.state.category === 'all') {
-            this.fetchAdsFromDatabse("all");
+        if (this.state.majorCategory === 'Properties' && this.state.category !== 'all') {
+            this.fetchAdsFromDatabse(this.state.majorCategory, this.state.category);
+        } else if (this.state.majorCategory === 'showall') {
+            this.fetchAdsFromDatabse("showall", null);
+        } else if (((this.state.majorCategory === 'Properties' && this.state.category === 'all') || (this.state.majorCategory === 'Properties')) || ((this.state.majorCategory === 'Cars' && this.state.category === 'all') || (this.state.majorCategory === 'Cars'))) {
+            if (this.state.majorCategory === 'Properties') {
+                this.fetchAdsFromDatabse("Properties", "all");
+            } else if (this.state.majorCategory === 'Cars') {
+                this.fetchAdsFromDatabse("Cars", "all");
+            }
         } else console.log("Kuch to select karle");
+    }
+
+    // PropertiesView = (ad) => {
+    //     <Redirect to={{
+    //         pathname: '/dashboard/' + ad._id,
+    //         state: { referrer: ad }
+    //     }} />
+    // }
+
+
+    setRedirect = (ad) => {
+        this.setState({
+            redirect: true,
+            redirectKey: ad
+        })
+    }
+
+    renderRedirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to={{
+                pathname: '/view/' + this.state.redirectKey._id,
+                state: { referrer: this.state.redirectKey }
+            }} />
+        }
     }
 
     render() {
 
-        const { isLoading, token, username, dom, ads } = this.state;
+        const { isLoading, token, username, ads } = this.state;
         if (isLoading) {
             return (<Loader />);
         }
@@ -174,21 +179,33 @@ export default class Dashboard extends Component {
                     </div>
                     <br />
                     <div className="form-group" style={{ width: '80%', margin: '0 auto' }}>
-                        {dom}
+                        {this.state.majorCategory === "Properties" ? <select className="form-control form-control-lg" name="category" value={this.state.category} onChange={this.handleChangeCategory}>
+                            <option value="" >Select Ad Type</option>
+                            <option value="all">Show All</option>
+                            <option value="For Rent">For Rent</option>
+                            <option value="For Sale">For Sale</option>
+                            <option value="New Projects">New Projects</option>
+                        </select> : null}
+                        {this.state.majorCategory === "Cars" ? <select className="form-control form-control-lg" name="category" value={this.state.category} onChange={this.handleChangeCategory}>
+                            <option value="Cars">Cars</option>
+                        </select> : null}
                     </div>
                     <br />
                     <button className="btn btn-outline-success btn-lg btn-block" style={{ width: '80%', margin: '0 auto' }} onClick={this.showAds}>Show My Ads</button>
                     <br />
-                    {ads ? ads.map((ad, i) => <div key={i}><div className="card" style={{ height: '80%', width: '18rem', margin: '0 auto' }}>
-                        <img className="card-img-top" src="http://via.placeholder.com/286px180/" alt="Card image cap" />
-                        <div className="card-body">
-                            <h5 className="card-title">{ad.description}</h5>
-                            <p className="card-text" style={{ fontSize: '15px' }}>{ad.majorCategory} / {ad.category} / {ad.type}</p>
-                            <p className="card-text">{ad.phone}</p>
-                            <p className="card-text">{ad.location}</p>
-                            <a href="#" className="btn btn-primary">See Datails</a>
-                        </div>
-                    </div><br /></div>) : null}
+                    {ads ? ads.map((ad, i) => {
+                        return (<div key={ad._id}><div className="card" style={{ height: '80%', width: '18rem', margin: '0 auto' }}>
+                            <img className="card-img-top" src="http://via.placeholder.com/286px180/" alt="Card image cap" />
+                            <div className="card-body">
+                                <Desc ad={ad} />
+                                <p className="card-text" style={{ fontSize: '15px' }}>{ad.majorCategory} / {ad.category} / {ad.type}</p>
+                                <p className="card-text">{ad.phone}</p>
+                                <p className="card-text">{ad.location}</p>
+                                {this.renderRedirect()}
+                                <button onClick={() => this.setRedirect(ad)} type="button" className="btn btn-outline-primary">See Details</button>
+                            </div>
+                        </div><br /></div>)
+                    }) : null}
                 </div>
             )
         }

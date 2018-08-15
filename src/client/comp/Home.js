@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Header from "./Header";
-import { Link } from "react-router-dom";
 import { Redirect } from 'react-router-dom'
 import { getFromStorage, setInStorage } from "../utils/storage";
 import Loader from './loader';
@@ -19,7 +18,8 @@ export default class Home extends Component {
             value: '',
             majorCategory: '',
             category: '',
-            dom: <div></div>
+            redirect: false,
+            redirectKey: ""
         }
     }
     componentWillMount() {
@@ -85,31 +85,8 @@ export default class Home extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    value = (e) => {
-        return this.state.category;
-    }
-
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
-        console.log(e.target.value);
-
-        if (e.target.value === 'Properties') {
-            this.setState({
-                dom: <select className="form-control form-control-lg" name="category" value={this.state.category} onChange={this.handleChangeCategory}>
-                    <option value="" >Select Ad Type</option>
-                    <option value="all">Show All</option>
-                    <option value="For Rent">For Rent</option>
-                    <option value="For Sale">For Sale</option>
-                    <option value="New Projects">New Projects</option>
-                </select>
-            });
-        } else if (e.target.value === 'Cars') {
-            this.setState({
-                dom: <select className="form-control form-control-lg" name="category" value={this.state.category} onChange={this.handleChangeCategory}>
-                    <option value="all">Show All</option>
-                </select>
-            });
-        }
     }
 
     fetchAdsFromDatabse = (majorCategory, category) => {
@@ -154,9 +131,25 @@ export default class Home extends Component {
         } else console.log("Kuch to select karle");
     }
 
+    setRedirect = (ad) => {
+        this.setState({
+            redirect: true,
+            redirectKey: ad
+        })
+    }
+
+    renderRedirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to={{
+                pathname: '/view/' + this.state.redirectKey._id,
+                state: { referrer: this.state.redirectKey }
+            }} />
+        }
+    }
+
     render() {
 
-        const { isLoading, token, username, dom, ads } = this.state;
+        const { isLoading, token, username, ads } = this.state;
 
         if (isLoading) {
             return (<Loader />);
@@ -179,7 +172,16 @@ export default class Home extends Component {
                     </div>
                     <br />
                     <div className="form-group" style={{ width: '80%', margin: '0 auto' }}>
-                        {dom}
+                        {this.state.majorCategory === "Properties" ? <select className="form-control form-control-lg" name="category" value={this.state.category} onChange={this.handleChangeCategory}>
+                            <option value="" >Select Ad Type</option>
+                            <option value="all">Show All</option>
+                            <option value="For Rent">For Rent</option>
+                            <option value="For Sale">For Sale</option>
+                            <option value="New Projects">New Projects</option>
+                        </select> : null}
+                        {this.state.majorCategory === "Cars" ? <select className="form-control form-control-lg" name="category" value={this.state.category} onChange={this.handleChangeCategory}>
+                            <option value="Cars">Cars</option>
+                        </select> : null}
                     </div>
                     <br />
                     <button className="btn btn-outline-success btn-lg btn-block" style={{ width: '80%', margin: '0 auto' }} onClick={this.showAds}>Show Ads</button>
@@ -191,7 +193,8 @@ export default class Home extends Component {
                             <p className="card-text">{ad.phone}</p>
                             <p className="card-text" style={{ fontSize: '15px' }}>{ad.majorCategory} / {ad.category} / {ad.type}</p>
                             <p className="card-text">{ad.location}</p>
-                            <a href="#" className="btn btn-primary">See Datails</a>
+                            {this.renderRedirect()}
+                            <button onClick={() => this.setRedirect(ad)} type="button" className="btn btn-outline-primary">See Details</button>
                         </div>
                     </div><br /></div>) : null}
                 </div>
@@ -213,7 +216,16 @@ export default class Home extends Component {
                 </div>
                 <br />
                 <div className="form-group" style={{ width: '80%', margin: '0 auto' }}>
-                    {dom}
+                    {this.state.majorCategory === "Properties" ? <select className="form-control form-control-lg" name="category" value={this.state.category} onChange={this.handleChangeCategory}>
+                        <option value="" >Select Ad Type</option>
+                        <option value="all">Show All</option>
+                        <option value="For Rent">For Rent</option>
+                        <option value="For Sale">For Sale</option>
+                        <option value="New Projects">New Projects</option>
+                    </select> : null}
+                    {this.state.majorCategory === "Cars" ? <select className="form-control form-control-lg" name="category" value={this.state.category} onChange={this.handleChangeCategory}>
+                        <option value="Cars">Cars</option>
+                    </select> : null}
                 </div>
                 <br />
                 <button className="btn btn-outline-success btn-lg btn-block" style={{ width: '80%', margin: '0 auto' }} onClick={this.showAds}>Show Ads</button>
@@ -225,7 +237,8 @@ export default class Home extends Component {
                         <p className="card-text">{ad.phone}</p>
                         <p className="card-text" style={{ fontSize: '15px' }}>{ad.majorCategory} / {ad.category} / {ad.type}</p>
                         <p className="card-text">{ad.location}</p>
-                        <a href="#" className="btn btn-primary">See Datails</a>
+                        {this.renderRedirect()}
+                        <button onClick={() => this.setRedirect(ad)} type="button" className="btn btn-outline-primary">See Details</button>
                     </div>
                 </div><br /></div>) : null}
             </div>
