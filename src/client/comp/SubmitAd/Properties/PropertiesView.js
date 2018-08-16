@@ -13,7 +13,9 @@ class PropertiesView extends React.Component {
             isLoading: true,
             token: '',
             success: '',
-            currentUser: ''
+            currentUser: '',
+            redirectKey: '',
+            redirect: ''
         }
     }
 
@@ -98,6 +100,23 @@ class PropertiesView extends React.Component {
 
     }
 
+    setRedirect = (ad) => {
+        this.setState({
+            redirect: true,
+            redirectKey: ad
+        })
+    }
+
+    renderRedirect = () => {
+        if (this.state.redirect) {
+            console.log(this.state.redirectKey._id)
+            return <Redirect to={{
+                pathname: '/edit/' + this.state.redirectKey._id,
+                state: { referrer: this.state.redirectKey }
+            }} />
+        }
+    }
+
 
     render() {
         //if (this.props.location.state && this.props.location.state.referrer) {
@@ -128,6 +147,8 @@ class PropertiesView extends React.Component {
             phone,
             file
         } = this.props.location.state.referrer;
+
+        const ad = this.props.location.state.referrer;
         const {
             currentUser
         } = this.state;
@@ -237,6 +258,7 @@ class PropertiesView extends React.Component {
                                 <div className="container">
                                     <div className="row">
                                         <div className="col-sm">
+                                            {currentUser === userId ? <div> {this.renderRedirect()} <button onClick={() => this.setRedirect(ad)} className="btn btn-outline-success btn-lg" style={{ textAlign: 'center', float: 'left' }} >Edit this Ad</button></div> : null}
                                         </div>
                                         <div className="col-sm">
                                         </div>

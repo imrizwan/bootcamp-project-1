@@ -4,7 +4,6 @@ import { Redirect } from 'react-router-dom'
 import { getFromStorage } from "../utils/storage";
 import Loader from './loader';
 import SecureHeader from './secureHeader';
-import Desc from "./Desc";
 
 const url = `http://localhost:8080/api/`;
 export default class Dashboard extends Component {
@@ -197,7 +196,7 @@ export default class Dashboard extends Component {
                         return (<div key={ad._id}><div className="card" style={{ height: '80%', width: '18rem', margin: '0 auto' }}>
                             <img className="card-img-top" src="http://via.placeholder.com/286px180/" alt="Card image cap" />
                             <div className="card-body">
-                                <Desc ad={ad} />
+                                <h5 className="card-title">{ad.description}</h5>
                                 <p className="card-text" style={{ fontSize: '15px' }}>{ad.majorCategory} / {ad.category} / {ad.type}</p>
                                 <p className="card-text">{ad.phone}</p>
                                 <p className="card-text">{ad.location}</p>

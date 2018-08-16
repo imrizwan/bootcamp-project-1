@@ -365,20 +365,21 @@ module.exports = (app) => {
 
     app.post('/api/delete', function (req, res, next) {
 
-        const { _id } = req.body;
-
-        PropertiesForm.findByIdAndRemove({
-            _id: _id
-        }, (err, ads) => {
-            if (err) {
-                console.log("ERROR FROM DASHBOARD", err);
-            } else if (ads.length > 0) {
-                return res.send({
-                    success: true,
-                    ads: ads
-                });
-            }
-        });
+        if (req.body._id) {
+            const { _id } = req.body;
+            PropertiesForm.findByIdAndRemove({
+                _id: _id
+            }, (err, ads) => {
+                if (err) {
+                    console.log("ERROR FROM DASHBOARD", err);
+                } else if (ads.length > 0) {
+                    return res.send({
+                        success: true,
+                        ads: ads
+                    });
+                }
+            });
+        }
+        else console.log("No User");
     });
-
 }

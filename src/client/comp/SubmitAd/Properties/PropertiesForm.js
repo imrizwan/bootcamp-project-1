@@ -8,37 +8,44 @@ class PropertiesForm extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
-            userId: '',
+            userId: this.props.ad ? this.props.ad.userId : '',
             majorCategory: "Properties",
-            category: this.props.category,
-            type: "",
-            description: "",
-            price: "",
-            bedrooms: "",
-            bathrooms: "",
-            furnishing: "",
-            constructionstatus: "",
-            listedby: "",
-            SBArea: "",
-            carpetArea: "",
-            bachelorsallowed: "",
-            maintenance: "",
-            totalFloors: "",
-            floorNumber: "",
-            carparking: "",
-            facing: "",
-            projectname: "",
-            location: "",
-            name: "",
-            phone: "",
-            file: []
+            category: this.props.ad ? this.props.ad.category : this.props.category,
+            type: this.props.ad ? this.props.ad.type : "",
+            description: this.props.ad ? this.props.ad.description : "",
+            price: this.props.ad ? this.props.ad.price : "",
+            bedrooms: this.props.ad ? this.props.ad.bedrooms : "",
+            bathrooms: this.props.ad ? this.props.ad.bathrooms : "",
+            furnishing: this.props.ad ? this.props.ad.furnishing : "",
+            constructionstatus: this.props.category ? "" : this.props.ad.category === "New Projects" ? this.props.ad.constructionstatus : "",
+            listedby: this.props.ad ? this.props.ad.listedby : "",
+            SBArea: this.props.ad ? this.props.ad.SBArea : "",
+            carpetArea: this.props.ad ? this.props.ad.carpetArea : "",
+            bachelorsallowed: this.props.ad ? this.props.ad.bachelorsallowed : "",
+            maintenance: this.props.ad ? this.props.ad.maintenance : "",
+            totalFloors: this.props.ad ? this.props.ad.totalFloors : "",
+            floorNumber: this.props.ad ? this.props.ad.floorNumber : "",
+            carparking: this.props.ad ? this.props.ad.carparking : "",
+            facing: this.props.ad ? this.props.ad.facing : "",
+            projectname: this.props.ad ? this.props.ad.projectname : "",
+            location: this.props.ad ? this.props.ad.location : "",
+            name: this.props.ad ? this.props.ad.name : "",
+            phone: this.props.ad ? this.props.ad.phone : "",
+            file: [],
+            edit: false
         }
     }
 
 
     componentDidMount() {
+
+        if (this.props.ad) {
+            this.setState({
+                edit: true
+            })
+        }
+
         const obj = getFromStorage('olx');
         if (obj) {
             const { userId } = obj;
@@ -103,6 +110,26 @@ class PropertiesForm extends React.Component {
                 if (json.success) {
                     this.setState({
                         formError: json.message,
+                        type: "",
+                        description: "",
+                        price: "",
+                        bedrooms: "",
+                        bathrooms: "",
+                        furnishing: "",
+                        constructionstatus: "",
+                        listedby: "",
+                        SBArea: "",
+                        carpetArea: "",
+                        bachelorsallowed: "",
+                        maintenance: "",
+                        totalFloors: "",
+                        floorNumber: "",
+                        carparking: "",
+                        facing: "",
+                        projectname: "",
+                        location: "",
+                        name: "",
+                        phone: "",
                     })
                 } else {
                     this.setState({
@@ -112,13 +139,16 @@ class PropertiesForm extends React.Component {
             })
     };
 
+    edit = () => {
+        console.log("Edit");
+    }
+
     render() {
-        const { formError } = this.state;
+        const { formError, edit } = this.state;
 
         return (
             <div className="jumbotron jumbotron-fluid Signup">
                 <div className="container">
-
                     {
                         (formError) ? (
                             <div className="alert alert-danger" role="alert">
@@ -126,7 +156,11 @@ class PropertiesForm extends React.Component {
                             </div>
                         ) : (null)
                     }
-                    <h1 className="display-4">Submit Ad</h1>
+                    {
+                        (edit) ? (
+                            <h1 className="display-4">Update Ad</h1>
+                        ) : <h1 className="display-4">Submit Ad</h1>
+                    }
                     <div className="form-group">
                         <div className="custom-file">
                             <input type="file" className="custom-file-input" id="photos" onChange={this.fileSelectedHandler} accept="image/x-png,image/gif,image/jpeg,image/jpg" multiple required />
@@ -134,7 +168,7 @@ class PropertiesForm extends React.Component {
                         </div>
                         <hr />
                         <div className="alert alert-primary" role="alert">
-                            Properties / {this.props.category}
+                            Properties / {this.state.category}
                         </div>
                         <hr />
                         <div className="form-group">
@@ -257,8 +291,17 @@ class PropertiesForm extends React.Component {
                         <div className="form-group">
                             <input className="form-control" placeholder="Phone (+923451234567)" type="number" value={this.state.phone} onChange={this.handleChange} name="phone" required />
                         </div>
-                        <button className="btn btn-outline-success btn-lg btn-block" onClick={this.onClick}>Submit Ad</button>
+                        {edit ? <button className="btn btn-outline-success btn-lg btn-block" onClick={this.edit}>Update Ad</button> :
+                            <button className="btn btn-outline-success btn-lg btn-block" onClick={this.onClick}>Submit Ad</button>}
                     </div>
+                    {
+                        (formError) ? (
+                            <div className="alert alert-danger" role="alert">
+                                {formError}
+                                {alert(formError)}
+                            </div>
+                        ) : (null)
+                    }
                 </div>
             </div>
         )
