@@ -1,11 +1,13 @@
 import React from 'react';
 import './PropertiesForm.css';
 import { getFromStorage } from "../../../utils/storage";
+import { Redirect } from "react-router-dom";
+import createHistory from 'history/createBrowserHistory';
+const history = createHistory();
 
 const url = `http://localhost:8080/api/`;
 
 class PropertiesForm extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -33,7 +35,8 @@ class PropertiesForm extends React.Component {
             name: this.props.ad ? this.props.ad.name : "",
             phone: this.props.ad ? this.props.ad.phone : "",
             file: [],
-            edit: false
+            edit: false,
+            redirect: false,
         }
     }
 
@@ -51,6 +54,7 @@ class PropertiesForm extends React.Component {
             const { userId } = obj;
             this.setState({ userId });
         }
+        return true;
     }
 
     fileSelectedHandler = (e) => {
@@ -139,8 +143,67 @@ class PropertiesForm extends React.Component {
             })
     };
 
+
     edit = () => {
-        console.log("Edit");
+        console.log("editpropertyform");
+        let status;
+        const {
+            type, description, price, bedrooms, bathrooms, furnishing, constructionstatus, listedby, SBArea, carpetArea, bachelorsallowed, maintenance, totalFloors, floorNumber, carparking, facing, projectname, location, name, phone, file
+        } = this.state;
+        //Edit here
+        fetch(url + 'editpropertyform', {
+            method: 'POST',
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+            body: JSON.stringify({
+                _id: this.props.ad._id,
+                type: type,
+                description: description,
+                price: price,
+                bedrooms: bedrooms,
+                bathrooms: bathrooms,
+                furnishing: furnishing,
+                constructionstatus: constructionstatus,
+                listedby: listedby,
+                SBArea: SBArea,
+                carpetArea: carpetArea,
+                bachelorsallowed: bachelorsallowed,
+                maintenance: maintenance,
+                totalFloors: totalFloors,
+                floorNumber: floorNumber,
+                carparking: carparking,
+                facing: facing,
+                projectname: projectname,
+                location: location,
+                name: name,
+                phone: phone,
+            })
+        }).then(res => res.json())
+            .then(json => {
+                if (json.success) {
+                    alert("Updated!");
+                    this.setState({
+                        formError: json.message,
+                        redirect: true
+                    });
+                } else {
+                    this.setState({
+                        formError: json.message
+                    });
+                }
+            })
+        //      alert("Updated");
+    }
+
+    renderRedirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to={{
+                pathname: '/dashboard',
+            }} />
+        }
     }
 
     render() {
@@ -291,14 +354,13 @@ class PropertiesForm extends React.Component {
                         <div className="form-group">
                             <input className="form-control" placeholder="Phone (+923451234567)" type="number" value={this.state.phone} onChange={this.handleChange} name="phone" required />
                         </div>
-                        {edit ? <button className="btn btn-outline-success btn-lg btn-block" onClick={this.edit}>Update Ad</button> :
+                        {edit ? <div> {this.renderRedirect()} <button className="btn btn-outline-success btn-lg btn-block" onClick={() => this.edit(this.props)}>Update Ad</button> </div> :
                             <button className="btn btn-outline-success btn-lg btn-block" onClick={this.onClick}>Submit Ad</button>}
                     </div>
                     {
                         (formError) ? (
                             <div className="alert alert-danger" role="alert">
                                 {formError}
-                                {alert(formError)}
                             </div>
                         ) : (null)
                     }

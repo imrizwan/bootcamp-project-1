@@ -348,19 +348,73 @@ module.exports = (app) => {
         });
     });
 
-    app.post('/api/edit', function (req, res, next) {
-        PropertiesForm.findByIdAndUpdate({
-            _id: _id
-        }, (err, ads) => {
-            if (err) {
-                console.log("ERROR FROM DASHBOARD", err);
-            } else if (ads.length > 0) {
-                return res.send({
-                    success: true,
-                    ads: ads
-                });
-            }
-        });
+    app.post('/api/editpropertyform', function (req, res, next) {
+
+        console.log(req.body.type);
+
+        const { body } = req;
+        const {
+            _id,
+            type,
+            description,
+            price,
+            bedrooms,
+            bathrooms,
+            furnishing,
+            constructionstatus,
+            listedby,
+            SBArea,
+            carpetArea,
+            bachelorsallowed,
+            maintenance,
+            totalFloors,
+            floorNumber,
+            carparking,
+            facing,
+            projectname,
+            location,
+            name,
+            phone,
+            file
+        } = body;
+
+        PropertiesForm.updateOne({
+            _id: _id,
+        }, {
+                $set: {
+                    type: type,
+                    description: description,
+                    bedrooms: bedrooms,
+                    bathrooms: bathrooms,
+                    furnishing: furnishing,
+                    constructionstatus: constructionstatus,
+                    listedby: listedby,
+                    SBArea: SBArea,
+                    carpetArea: carpetArea,
+                    bachelorsallowed: bachelorsallowed,
+                    maintenance: maintenance,
+                    totalFloors: totalFloors,
+                    floorNumber: floorNumber,
+                    carparking: carparking,
+                    facing: facing,
+                    projectname: projectname,
+                    location: location,
+                    name: name,
+                    phone: phone,
+                }
+            }, null, (err, ads) => {
+                if (err) {
+                    return res.send({
+                        success: false,
+                        message: "ERROR!"
+                    });
+                } else {
+                    return res.send({
+                        success: true,
+                        message: "Udated!"
+                    });
+                }
+            });
     });
 
     app.post('/api/delete', function (req, res, next) {
