@@ -3,8 +3,6 @@ const UserSession = require('../../models/UserSession');
 
 module.exports = (app) => {
     app.post('/api/signup', function (req, res, next) {
-        console.log("THIS IS FROM SERVER: ", req.body.username);
-
         const { body } = req;
         const {
             username,
@@ -71,8 +69,6 @@ module.exports = (app) => {
     });
 
     app.post('/api/signin', function (req, res, next) {
-        console.log("THIS IS FROM SERVER: ");
-
         const { body } = req;
         const {
             password

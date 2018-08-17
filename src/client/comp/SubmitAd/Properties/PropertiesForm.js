@@ -2,8 +2,6 @@ import React from 'react';
 import './PropertiesForm.css';
 import { getFromStorage } from "../../../utils/storage";
 import { Redirect } from "react-router-dom";
-import createHistory from 'history/createBrowserHistory';
-const history = createHistory();
 
 const url = `http://localhost:8080/api/`;
 

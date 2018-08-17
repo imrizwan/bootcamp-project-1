@@ -233,7 +233,6 @@ module.exports = (app) => {
 
         const { body } = req;
         const { userId, category, majorCategory } = body;
-        console.log(userId, majorCategory, category);
 
         if (majorCategory === 'Properties' && category !== 'all') {
             PropertiesForm.find({
@@ -284,7 +283,6 @@ module.exports = (app) => {
 
         const { body } = req;
         const { userId, category, majorCategory } = body;
-        console.log(userId, majorCategory, category);
 
         if (majorCategory === 'Properties' && category !== 'all') {
             PropertiesForm.find({
@@ -349,9 +347,6 @@ module.exports = (app) => {
     });
 
     app.post('/api/editpropertyform', function (req, res, next) {
-
-        console.log(req.body.type);
-
         const { body } = req;
         const {
             _id,
@@ -386,6 +381,7 @@ module.exports = (app) => {
                     description: description,
                     bedrooms: bedrooms,
                     bathrooms: bathrooms,
+                    price: price,
                     furnishing: furnishing,
                     constructionstatus: constructionstatus,
                     listedby: listedby,
