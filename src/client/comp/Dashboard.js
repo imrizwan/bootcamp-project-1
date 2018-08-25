@@ -94,25 +94,27 @@ export default class Dashboard extends Component {
         const obj = getFromStorage('olx');
         if (obj && obj.userId) {
             const { userId } = obj;
+
+            var formData = new FormData();
+            formData.append('userId', userId);
+            formData.append('majorCategory', majorCategory);
+            formData.append('category', category);
             //Getting Ads from Database
             fetch(url + 'dashboard', {
                 method: 'POST',
                 mode: "cors",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-                },
-                body: JSON.stringify({
-                    userId: userId,
-                    category: category,
-                    majorCategory: majorCategory
-                })
+                //headers: {
+                //    "Content-Type": "application/json",
+                //    "Accept": "application/json",
+                //},
+                body: formData
             })
                 .then(res => res.json())
                 .then(json => {
                     this.setState({
                         ads: json.ads,
                     })
+                    console.log(json);
                 })
         }
     }
@@ -131,14 +133,6 @@ export default class Dashboard extends Component {
             }
         } else console.log("Kuch to select karle");
     }
-
-    // PropertiesView = (ad) => {
-    //     <Redirect to={{
-    //         pathname: '/dashboard/' + ad._id,
-    //         state: { referrer: ad }
-    //     }} />
-    // }
-
 
     setRedirect = (ad) => {
         this.setState({
@@ -193,8 +187,9 @@ export default class Dashboard extends Component {
                     <button className="btn btn-outline-success btn-lg btn-block" style={{ width: '80%', margin: '0 auto' }} onClick={this.showAds}>Show My Ads</button>
                     <br />
                     {ads ? ads.map((ad, i) => {
+                        console.log(ad.selectedImage)
                         return (<div key={ad._id}><div className="card" style={{ height: '80%', width: '18rem', margin: '0 auto' }}>
-                            <img className="card-img-top" src="http://via.placeholder.com/286px180/" alt="Card image cap" />
+                            <img className="card-img-top" src={ad.selectedImage} alt="Card image cap" />
                             <div className="card-body">
                                 <h5 className="card-title">{ad.description}</h5>
                                 <p className="card-text" style={{ fontSize: '15px' }}>{ad.majorCategory} / {ad.category} / {ad.type}</p>

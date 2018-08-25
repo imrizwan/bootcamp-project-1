@@ -1,8 +1,29 @@
 const PropertiesForm = require('../../models/PropertiesForm');
+const User = require('../../models/User');
+
+const path = require("path");
+//add multer to manage multipart form
+const multer = require("multer");
+
+//storage management for the file
+//that will be uploaded
+let storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads/')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    }
+})
+
+
+
+//management of the storage and the file that will be uploaded 
+//.single expects the name of the file input field
+const upload = multer({ storage: storage }).single("selectedImage");
 
 module.exports = (app) => {
-    app.post('/api/propertyform', function (req, res, next) {
-        console.log("THIS IS FROM SERVER PropertiesForm", req.body);
+    app.post('/api/propertyform', upload, function (req, res, next) {
 
         const { body } = req;
         const {
@@ -29,7 +50,6 @@ module.exports = (app) => {
             location,
             name,
             phone,
-            file
         } = body;
 
         if (!type) {
@@ -155,82 +175,79 @@ module.exports = (app) => {
             })
         }
 
-        const newForm = new PropertiesForm();
-        newForm.userId = userId;
-        newForm.majorCategory = majorCategory;
-        newForm.category = category;
-        newForm.type = type;
-        newForm.description = description;
-        newForm.price = price;
-        newForm.bedrooms = bedrooms;
-        newForm.bathrooms = bathrooms;
-        newForm.furnishing = furnishing;
-        newForm.constructionstatus = constructionstatus;
-        newForm.listedby = listedby;
-        newForm.SBArea = SBArea;
-        newForm.carpetArea = carpetArea;
-        newForm.bachelorsallowed = bachelorsallowed;
-        newForm.maintenance = maintenance;
-        newForm.totalFloors = totalFloors;
-        newForm.floorNumber = floorNumber;
-        newForm.carparking = carparking;
-        newForm.facing = facing;
-        newForm.projectname = projectname;
-        newForm.location = location;
-        newForm.name = name;
-        newForm.phone = phone;
-        newForm.file = file;
-
-        newForm.save((err, user) => {
-            if (err) {
+        // ---------- MULTER UPLOAD FUNCTION -------------
+        upload(req, res, function (err) {
+            // need to check if the req.file is set.
+            if (req.file == null || req.file == undefined || req.file == "") {
+                //redirect to the same url            
                 return res.send({
                     success: false,
-                    message: "ERROR: Server error!!!"
+                    message: "Image Not Found: Server error!!!"
                 });
+
+            } else {
+                // An error occurred when uploading
+                if (err) {
+                    console.log(err);
+                } else {
+                    // Everything went fine
+                    //define what to do with the params
+                    //both the req.body and req.file(s) are accessble here
+                    //console.log(req.file);
+
+
+                    //store the file name to mongodb    
+                    //we use the model to store the file.
+                    const newForm = new PropertiesForm();
+                    newForm.userId = userId;
+                    newForm.majorCategory = majorCategory;
+                    newForm.category = category;
+                    newForm.type = type;
+                    newForm.description = description;
+                    newForm.price = price;
+                    newForm.bedrooms = bedrooms;
+                    newForm.bathrooms = bathrooms;
+                    newForm.furnishing = furnishing;
+                    newForm.constructionstatus = constructionstatus;
+                    newForm.listedby = listedby;
+                    newForm.SBArea = SBArea;
+                    newForm.carpetArea = carpetArea;
+                    newForm.bachelorsallowed = bachelorsallowed;
+                    newForm.maintenance = maintenance;
+                    newForm.totalFloors = totalFloors;
+                    newForm.floorNumber = floorNumber;
+                    newForm.carparking = carparking;
+                    newForm.facing = facing;
+                    newForm.projectname = projectname;
+                    newForm.location = location;
+                    newForm.name = name;
+                    newForm.phone = phone;
+                    newForm.selectedImage = req.file.filename;
+                    console.log(req.file);
+                    //save the image
+                    newForm.save((err, user) => {
+                        if (err) {
+                            return res.send({
+                                success: false,
+                                message: "ERROR: Server error!!!"
+                            });
+                        }
+                        return res.send({
+                            success: true,
+                            message: "Success!!!"
+                        });
+                    });
+
+                }
+
             }
-            return res.send({
-                success: true,
-                message: "Success!!!"
-            });
+
         });
 
-        //Marching Email if doesn't exist
-        // User.find({
-        //     email: email
-        // }, (err, previousUsers) => {
-        //     if (err) {
-        //         return res.send({
-        //             success: false,
-        //             message: "ERROR: Server error!!!"
-        //         })
-        //     } else if (previousUsers.length > 0) {
-        //         return res.send({
-        //             success: false,
-        //             message: "ERROR: Account Already Exist!!!"
-        //         })
-        //     }
-        //     //Save the new user
-        //     const newUser = new User();
-        //     newUser.username = username;
-        //     newUser.email = email;
-        //     newUser.password = newUser.generateHash(password);
-        //     newUser.save((err, user) => {
-        //         if (err) {
-        //             return res.send({
-        //                 success: false,
-        //                 message: "ERROR: Server error!!!"
-        //             });
-        //         }
-        //         return res.send({
-        //             success: true,
-        //             message: "Signed up!!!"
-        //         });
-        //     });
-        // });
     });
 
-    app.post('/api/dashboard', function (req, res, next) {
 
+    app.post('/api/dashboard', upload, function (req, res, next) {
         const { body } = req;
         const { userId, category, majorCategory } = body;
 
@@ -327,6 +344,29 @@ module.exports = (app) => {
     });
 
 
+
+    app.post("/api/getuserbyid", async (req, res) => {
+
+        try {
+            await User.find({
+                _id: req.body.Aduser
+            }, (err, user) => {
+                if (err) {
+                    console.log("ERROR FROM DASHBOARD", err);
+                } else if (user.length > 0) {
+                    let username = user[0].username;
+                    return res.send({
+                        success: true,
+                        user: username
+                    });
+                }
+            });
+        } catch (error) {
+            res.sendStatus(500)
+            console.error(error)
+        }
+    })
+
     app.post('/api/getadbyid', function (req, res, next) {
 
         const { body } = req;
@@ -346,7 +386,7 @@ module.exports = (app) => {
         });
     });
 
-    app.post('/api/editpropertyform', function (req, res, next) {
+    app.put('/api/editpropertyform', function (req, res, next) {
         const { body } = req;
         const {
             _id,
@@ -370,7 +410,7 @@ module.exports = (app) => {
             location,
             name,
             phone,
-            file
+            selectedImage
         } = body;
 
         PropertiesForm.updateOne({
@@ -413,7 +453,7 @@ module.exports = (app) => {
             });
     });
 
-    app.post('/api/delete', function (req, res, next) {
+    app.delete('/api/delete', function (req, res, next) {
 
         if (req.body._id) {
             const { _id } = req.body;

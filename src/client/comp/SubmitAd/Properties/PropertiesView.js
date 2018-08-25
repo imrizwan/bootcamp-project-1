@@ -49,7 +49,7 @@ class PropertiesView extends React.Component {
     delete = (_id) => {
         //Getting Ads from Database
         fetch(url + 'delete', {
-            method: 'POST',
+            method: 'DELETE',
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
@@ -115,6 +115,18 @@ class PropertiesView extends React.Component {
                 state: { referrer: this.state.redirectKey }
             }} />
         }
+    }
+
+    message = () => {
+        //renderRedirect
+        console.log("Message")
+        if (this.state.redirect) {
+            return <Redirect to={{
+                pathname: '/message',
+                state: { referrer: this.state.redirectKey }
+            }} />
+        }
+
     }
 
 
@@ -258,7 +270,9 @@ class PropertiesView extends React.Component {
                                 <div className="container">
                                     <div className="row">
                                         <div className="col-sm">
-                                            {currentUser === userId ? <div> {this.renderRedirect()} <button onClick={() => this.setRedirect(ad)} className="btn btn-outline-success btn-lg" style={{ textAlign: 'center', float: 'left' }} >Edit this Ad</button></div> : null}
+                                            {currentUser === userId ? <div> {this.renderRedirect()} <button onClick={() => this.setRedirect(ad)} className="btn btn-outline-success btn-lg" style={{ textAlign: 'center', float: 'left' }} >Edit this Ad</button></div> :
+                                                <div> {this.message()} <button onClick={() => this.setRedirect(ad)} className="btn btn-outline-primary btn-lg" style={{ textAlign: 'center', float: 'left' }} >Message</button></div>
+                                            }
                                         </div>
                                         <div className="col-sm">
                                         </div>

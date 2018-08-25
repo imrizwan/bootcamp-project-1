@@ -3,6 +3,8 @@ const app = express();
 var bodyParser = require('body-parser');
 const mongoose = require("mongoose");
 var cors = require('cors');
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 mongoose.connect(
   "mongodb://localhost:27017/olxdb",
@@ -24,6 +26,9 @@ db.on("error", function (err) {
 // app.set('views', path.join(__dirname, '../client'));
 // app.use(express.static(path.join(__dirname, '../client')));
 
+//uploads Multer folder
+app.use(express.static("./uploads"));
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
@@ -36,5 +41,12 @@ require('./routes')(app);
 //  response.status(404).send("Page not found!");
 //});
 
+io.on('connection', function (socket) {
+  console.log('a user connected');
+  socket.on('disconnect', function () {
+    console.log('user disconnected');
+  });
+});
 
-app.listen(8080, () => console.log("Listening on port 8080!"));
+
+http.listen(8080, () => console.log("Listening on port 8080!"));

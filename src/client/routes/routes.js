@@ -2,6 +2,7 @@ import React from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import createHistory from 'history/createBrowserHistory';
 import Dashboard from "../comp/Dashboard";
+import Message from "../comp/Message";
 import EditAd from "../comp/EditAd";
 import Home from "../comp/Home";
 import SignIn from "../comp/SignIn";
@@ -23,6 +24,7 @@ export default class AppRoute extends React.Component {
           <Route path="/signup" component={SignUp} />
           <Route path="/signin" component={SignIn} />
           <Route path="/dashboard" component={Dashboard} />
+          <Route path="/message" component={Message} />
           <Route path="/edit/:id" component={EditAd} />
           <Route path="/categories" component={Categories} />
           <Route path="/categories/properties/" component={Properties} />

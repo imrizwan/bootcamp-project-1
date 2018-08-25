@@ -32,7 +32,9 @@ class PropertiesForm extends React.Component {
             location: this.props.ad ? this.props.ad.location : "",
             name: this.props.ad ? this.props.ad.name : "",
             phone: this.props.ad ? this.props.ad.phone : "",
-            file: [],
+            selectedImage: {
+                file: null,
+            },
             edit: false,
             redirect: false,
         }
@@ -56,10 +58,13 @@ class PropertiesForm extends React.Component {
     }
 
     fileSelectedHandler = (e) => {
-        console.log(e.target.files[0])
+        //console.log(e.target.files[0])
         this.setState({
-            file: e.target.files[0]
-        })
+            selectedImage: {
+                file: e.target.files[0],
+            }
+        });
+        console.log(this.state.selectedImage);
     }
 
     handleChange = (e) => {
@@ -69,43 +74,72 @@ class PropertiesForm extends React.Component {
 
     onClick = () => {
         const {
-            userId, majorCategory, category, type, description, price, bedrooms, bathrooms, furnishing, constructionstatus, listedby, SBArea, carpetArea, bachelorsallowed, maintenance, totalFloors, floorNumber, carparking, facing, projectname, location, name, phone, file
+            userId, majorCategory, category, type, description, price, bedrooms, bathrooms, furnishing, constructionstatus, listedby, SBArea, carpetArea, bachelorsallowed, maintenance, totalFloors, floorNumber, carparking, facing, projectname, location, name, phone, selectedImage
         } = this.state;
         // post request
 
+
+        var formData = new FormData();
+        formData.append('userId', userId);
+        formData.append('majorCategory', majorCategory);
+        formData.append('category', category);
+        formData.append('type', type);
+        formData.append('description', description);
+        formData.append('price', price);
+        formData.append('bedrooms', bedrooms);
+        formData.append('bathrooms', bathrooms);
+        formData.append('furnishing', furnishing);
+        formData.append('constructionstatus', constructionstatus);
+        formData.append('listedby', listedby);
+        formData.append('SBArea', SBArea);
+        formData.append('carpetArea', carpetArea);
+        formData.append('bachelorsallowed', bachelorsallowed);
+        formData.append('maintenance', maintenance);
+        formData.append('totalFloors', totalFloors);
+        formData.append('floorNumber', floorNumber);
+        formData.append('carparking', carparking);
+        formData.append('facing', facing);
+        formData.append('projectname', projectname);
+        formData.append('location', location);
+        formData.append('name', name);
+        formData.append('phone', phone);
+        formData.append('selectedImage', selectedImage.file);
+
+
         fetch(url + 'propertyform', {
             method: 'POST',
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-            },
-            body: JSON.stringify({
-                userId: userId,
-                majorCategory: majorCategory,
-                category: category,
-                type: type,
-                description: description,
-                price: price,
-                bedrooms: bedrooms,
-                bathrooms: bathrooms,
-                furnishing: furnishing,
-                constructionstatus: constructionstatus,
-                listedby: listedby,
-                SBArea: SBArea,
-                carpetArea: carpetArea,
-                bachelorsallowed: bachelorsallowed,
-                maintenance: maintenance,
-                totalFloors: totalFloors,
-                floorNumber: floorNumber,
-                carparking: carparking,
-                facing: facing,
-                projectname: projectname,
-                location: location,
-                name: name,
-                phone: phone,
-                file: file
-            })
+            mode: 'cors',
+            // headers: {
+            //     'Content-Type': 'multipart/form-data',
+            //     'Accept': 'application/json'
+            // },
+            body: formData
+            // body: JSON.stringify({
+            //     userId: userId,
+            //     majorCategory: majorCategory,
+            //     category: category,
+            //     type: type,
+            //     description: description,
+            //     price: price,
+            //     bedrooms: bedrooms,
+            //     bathrooms: bathrooms,
+            //     furnishing: furnishing,
+            //     constructionstatus: constructionstatus,
+            //     listedby: listedby,
+            //     SBArea: SBArea,
+            //     carpetArea: carpetArea,
+            //     bachelorsallowed: bachelorsallowed,
+            //     maintenance: maintenance,
+            //     totalFloors: totalFloors,
+            //     floorNumber: floorNumber,
+            //     carparking: carparking,
+            //     facing: facing,
+            //     projectname: projectname,
+            //     location: location,
+            //     name: name,
+            //     phone: phone,
+            //     selectedImage: selectedImage.file
+            // })
         })
             .then(res => res.json())
             .then(json => {
@@ -146,11 +180,11 @@ class PropertiesForm extends React.Component {
         console.log("editpropertyform");
         let status;
         const {
-            type, description, price, bedrooms, bathrooms, furnishing, constructionstatus, listedby, SBArea, carpetArea, bachelorsallowed, maintenance, totalFloors, floorNumber, carparking, facing, projectname, location, name, phone, file
+            type, description, price, bedrooms, bathrooms, furnishing, constructionstatus, listedby, SBArea, carpetArea, bachelorsallowed, maintenance, totalFloors, floorNumber, carparking, facing, projectname, location, name, phone, selectedImage
         } = this.state;
         //Edit here
         fetch(url + 'editpropertyform', {
-            method: 'POST',
+            method: 'PUT',
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
@@ -178,6 +212,7 @@ class PropertiesForm extends React.Component {
                 location: location,
                 name: name,
                 phone: phone,
+                selectedImage: selectedImage
             })
         }).then(res => res.json())
             .then(json => {
