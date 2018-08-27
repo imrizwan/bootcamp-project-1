@@ -41,12 +41,17 @@ require('./routes')(app);
 //  response.status(404).send("Page not found!");
 //});
 
-io.on('connection', function (socket) {
-  console.log('a user connected');
-  socket.on('disconnect', function () {
-    console.log('user disconnected');
-  });
-});
+io.on('connection', socket => {
+  console.log('User connected')
 
+  socket.on('chat message', function (msg) {
+    console.log(msg);
+    io.emit('chat message', msg);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected')
+  })
+})
 
 http.listen(8080, () => console.log("Listening on port 8080!"));

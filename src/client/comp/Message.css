@@ -1,0 +1,16 @@
+.border {
+    padding: 5px;
+}
+
+.messageBox {
+    border: 1px solid black;
+    padding-top: 25%;
+}
+
+.messageField {
+    padding: 0 15px 5px 15px;
+} 
+
+.field {
+    width: 80%;
+}

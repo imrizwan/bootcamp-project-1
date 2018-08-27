@@ -355,9 +355,11 @@ module.exports = (app) => {
                     console.log("ERROR FROM DASHBOARD", err);
                 } else if (user.length > 0) {
                     let username = user[0].username;
+                    let _id = user[0]._id;
                     return res.send({
                         success: true,
-                        user: username
+                        username: username,
+                        _id: _id
                     });
                 }
             });
