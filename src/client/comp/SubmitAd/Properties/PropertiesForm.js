@@ -2,14 +2,14 @@ import React from 'react';
 import './PropertiesForm.css';
 import { getFromStorage } from "../../../utils/storage";
 import { Redirect } from "react-router-dom";
-
-const url = `http://localhost:8080/api/`;
+import { url } from '../../../Variables';
 
 class PropertiesForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             userId: this.props.ad ? this.props.ad.userId : '',
+            username: this.props.ad ? this.props.ad.username : '',
             majorCategory: "Properties",
             category: this.props.ad ? this.props.ad.category : this.props.category,
             type: this.props.ad ? this.props.ad.type : "",
@@ -51,8 +51,8 @@ class PropertiesForm extends React.Component {
 
         const obj = getFromStorage('olx');
         if (obj) {
-            const { userId } = obj;
-            this.setState({ userId });
+            const { userId, username } = obj;
+            this.setState({ userId, username });
         }
         return true;
     }
@@ -74,13 +74,14 @@ class PropertiesForm extends React.Component {
 
     onClick = () => {
         const {
-            userId, majorCategory, category, type, description, price, bedrooms, bathrooms, furnishing, constructionstatus, listedby, SBArea, carpetArea, bachelorsallowed, maintenance, totalFloors, floorNumber, carparking, facing, projectname, location, name, phone, selectedImage
+            userId, username, majorCategory, category, type, description, price, bedrooms, bathrooms, furnishing, constructionstatus, listedby, SBArea, carpetArea, bachelorsallowed, maintenance, totalFloors, floorNumber, carparking, facing, projectname, location, name, phone, selectedImage
         } = this.state;
         // post request
 
 
         var formData = new FormData();
         formData.append('userId', userId);
+        formData.append('username', username);
         formData.append('majorCategory', majorCategory);
         formData.append('category', category);
         formData.append('type', type);

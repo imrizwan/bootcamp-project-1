@@ -5,9 +5,7 @@ import Loader from '../loader';
 import SecureHeader from '../secureHeader';
 import { Redirect } from 'react-router-dom';
 import { getFromStorage } from "../../utils/storage";
-
-
-const url = `http://localhost:8080/api/`;
+import { url } from '../../Variables';
 
 export default class Categories extends React.Component {
 

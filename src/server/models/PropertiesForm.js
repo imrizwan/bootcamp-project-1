@@ -6,6 +6,10 @@ var PropertiesFormSchema = new Schema({
         type: String,
         default: ''
     },
+    username: {
+        type: String,
+        default: ''
+    },
     majorCategory: {
         type: String,
         default: ''

@@ -5,8 +5,8 @@ import { Redirect } from 'react-router-dom'
 import './SignUp.css';
 import Loader from './loader';
 import { getFromStorage, setInStorage } from "../utils/storage";
+import { url } from '../Variables';
 
-var url = `http://localhost:8080/api/`;
 export default class SignIn extends Component {
   constructor(props) {
     super(props);

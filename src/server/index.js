@@ -45,8 +45,14 @@ io.on('connection', socket => {
   console.log('User connected')
 
   socket.on('chat message', function (details) {
-    console.log(details);
-    io.emit('chat message', details);
+    if (!details.message) {
+      io.emit('error', "Type a Message!");
+    } else io.emit('chat message', details);
+  });
+
+  socket.on('ad', function (ad) {
+    console.log(ad);
+    io.emit('ad', ad);
   });
 
   socket.on('disconnect', () => {

@@ -4,8 +4,8 @@ import { Redirect } from 'react-router-dom'
 import { getFromStorage } from "../utils/storage";
 import Loader from './loader';
 import SecureHeader from './secureHeader';
+import { url } from '../Variables';
 
-const url = `http://localhost:8080/api/`;
 export default class Dashboard extends Component {
     constructor(props) {
         super(props);

@@ -3,9 +3,13 @@ import Header from "../../Header";
 import { Redirect } from 'react-router-dom'
 import { getFromStorage, setInStorage } from "../../../utils/storage";
 import Loader from '../../loader';
+import { url } from '../../../Variables';
 import SecureHeader from '../../secureHeader';
+var socket = require('socket.io-client')('http://localhost:8080');
+socket.on('connect', function () {
+    console.log("Client Connected");
+});
 
-const url = `http://localhost:8080/api/`;
 class PropertiesView extends React.Component {
     constructor(props) {
         super(props);
@@ -109,7 +113,6 @@ class PropertiesView extends React.Component {
 
     renderRedirect = () => {
         if (this.state.redirect) {
-            console.log(this.state.redirectKey._id)
             return <Redirect to={{
                 pathname: '/edit/' + this.state.redirectKey._id,
                 state: { referrer: this.state.redirectKey }
@@ -119,9 +122,9 @@ class PropertiesView extends React.Component {
 
     message = () => {
         //renderRedirect
-        console.log("Message")
         if (this.state.redirect) {
             setInStorage('ad', this.state.redirectKey);
+            socket.emit('ad', this.state.redirectKey);
             return <Redirect to={{
                 pathname: '/message/' + this.state.currentUser,
                 state: { referrer: this.state.redirectKey }

@@ -4,8 +4,7 @@ import { Redirect } from 'react-router-dom'
 import { getFromStorage, setInStorage } from "../utils/storage";
 import Loader from './loader';
 import SecureHeader from './secureHeader';
-
-const url = `http://localhost:8080/api/`;
+import { url } from '../Variables';
 
 export default class Home extends Component {
 

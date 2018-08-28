@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import Header from "./Header";
 import './SignUp.css';
 import { getFromStorage, setInStorage } from "../utils/storage";
+import { url } from '../Variables';
 
-var url = `http://localhost:8080/api/`;
 export default class SignUp extends Component {
   constructor(props) {
     super(props);

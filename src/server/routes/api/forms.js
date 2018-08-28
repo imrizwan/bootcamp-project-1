@@ -28,6 +28,7 @@ module.exports = (app) => {
         const { body } = req;
         const {
             userId,
+            username,
             majorCategory,
             category,
             type,
@@ -200,6 +201,7 @@ module.exports = (app) => {
                     //we use the model to store the file.
                     const newForm = new PropertiesForm();
                     newForm.userId = userId;
+                    newForm.username = username;
                     newForm.majorCategory = majorCategory;
                     newForm.category = category;
                     newForm.type = type;
@@ -469,6 +471,8 @@ module.exports = (app) => {
                         success: true,
                         ads: ads
                     });
+                } else {
+                    console.log("No Ads")
                 }
             });
         }

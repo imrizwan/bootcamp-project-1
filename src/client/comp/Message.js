@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { getFromStorage } from "../utils/storage";
 import './Message.css';
-const url = `http://localhost:8080/api/`;
+import { url } from '../Variables';
 
 var socket = require('socket.io-client')('http://localhost:8080');
 socket.on('connect', function () {
@@ -21,21 +21,14 @@ class Message extends React.Component {
             message: '',
             msgArrive: [],
             details: {},
-            sender: ''
+            sender: '',
+            error: '',
+            ad: ''
         }
     }
 
-    componentDidMount() {
-        socket.on('chat message', (details) => {
-            //console.log(details.message)
-            //const newChats = reset ? [chat] : [...chats, chat]
-            let a = [...this.state.msgArrive, [details.currentUser, details.message]]
-            console.log(details.currentUser);
-            this.setState({ msgArrive: a })
-        });
-    }
-
     componentWillMount() {
+
         const obj = getFromStorage('olx');
         const ad = getFromStorage('ad');
         if (obj && obj.username && obj.userId) {
@@ -46,33 +39,45 @@ class Message extends React.Component {
             })
         }
 
-        if (ad) {
+        socket.on('ad', (ad) => {
+            this.setState({ Aduser: ad.username, AduserId: ad.userId })
+        });
 
-            fetch(url + 'getuserbyid', {
-                method: 'POST',
-                mode: "cors",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-                },
-                body: JSON.stringify({
-                    Aduser: ad.userId
-                })
-            })
-                .then(res => res.json())
-                .then(json => {
-                    if (json.success) {
-                        this.setState({
-                            success: json.success,
-                            Aduser: json.username,
-                            AduserId: json._id
-                        })
-                        console.log(json.username + json._id);
-                    } else console.log(json.success + "User Not Found!");
-                })
-                .catch((err) => console.log("ERROR: ", err))
-        }
+        socket.on('chat message', (details) => {
+
+            let a = [...this.state.msgArrive, [details.currentUser, details.message]]
+            this.setState({ msgArrive: a })
+        });
     }
+
+    //componentWillMount() {
+    // if (ad) {
+
+    //     fetch(url + 'getuserbyid', {
+    //         method: 'POST',
+    //         mode: "cors",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             "Accept": "application/json",
+    //         },
+    //         body: JSON.stringify({
+    //             Aduser: ad.userId
+    //         })
+    //     })
+    //         .then(res => res.json())
+    //         .then(json => {
+    //             if (json.success) {
+    //                 this.setState({
+    //                     success: json.success,
+    //                     Aduser: json.username,
+    //                     AduserId: json._id
+    //                 })
+    //                 console.log(json.username + json._id);
+    //             } else console.log(json.success + "User Not Found!");
+    //         })
+    //         .catch((err) => console.log("ERROR: ", err))
+    // }
+    //}
 
     onChange = (e) => {
         this.setState({ message: e.target.value });
@@ -84,18 +89,20 @@ class Message extends React.Component {
             AduserId,
             currentUser,
             currentUserId,
-            message
+            message,
+            msgArrive
         } = this.state;
         let details = {
             Aduser,
             AduserId,
             currentUser,
             currentUserId,
-            message
+            message,
+            msgArrive
         }
 
         socket.emit('chat message', details);
-
+        this.setState({ message: '' })
         // fetch(url + 'message', {
         //     method: 'POST',
         //     mode: 'cors',
@@ -122,7 +129,7 @@ class Message extends React.Component {
 
         return (
             <div>
-                <h1>{this.state.Aduser + this.state.currentUser}</h1>
+                <h1>Messages</h1>
 
                 <hr />
 

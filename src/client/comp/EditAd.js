@@ -3,7 +3,7 @@ import PropertiesForm from './SubmitAd/Properties/PropertiesForm';
 import Loader from './loader';
 import { Redirect } from 'react-router-dom'
 import { getFromStorage } from "../utils/storage";
-const url = `http://localhost:8080/api/`;
+import { url } from '../Variables';
 
 class EditAd extends React.Component {
 

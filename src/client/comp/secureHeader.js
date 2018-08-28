@@ -12,7 +12,6 @@ class SecureHeader extends React.Component {
     }
 
     render() {
-        console.log(this.state.userId)
 
         const { username } = this.props;
         return (
