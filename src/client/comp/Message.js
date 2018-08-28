@@ -9,23 +9,35 @@ socket.on('connect', function () {
     console.log("Client Connected");
 });
 
-
-
-export default class Message extends React.Component {
+class Message extends React.Component {
     constructor(props) {
+        const ad = getFromStorage('ad');
         super(props)
         this.state = {
-            Aduser: '',
-            AduserId: '',
+            Aduser: ad ? ad.username : '',
+            AduserId: ad ? ad.userId : '',
             currentUser: '',
             currentUserId: '',
             message: '',
-            msgArrive: []
+            msgArrive: [],
+            details: {},
+            sender: ''
         }
+    }
+
+    componentDidMount() {
+        socket.on('chat message', (details) => {
+            //console.log(details.message)
+            //const newChats = reset ? [chat] : [...chats, chat]
+            let a = [...this.state.msgArrive, [details.currentUser, details.message]]
+            console.log(details.currentUser);
+            this.setState({ msgArrive: a })
+        });
     }
 
     componentWillMount() {
         const obj = getFromStorage('olx');
+        const ad = getFromStorage('ad');
         if (obj && obj.username && obj.userId) {
             const { username, userId } = obj;
             this.setState({
@@ -34,37 +46,38 @@ export default class Message extends React.Component {
             })
         }
 
-        // if (this.props.location.state.referrer) {
+        if (ad) {
 
-        //     fetch(url + 'getuserbyid', {
-        //         method: 'POST',
-        //         mode: "cors",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //             "Accept": "application/json",
-        //         },
-        //         body: JSON.stringify({
-        //             Aduser: this.props.location.state.referrer.userId
-        //         })
-        //     })
-        //         .then(res => res.json())
-        //         .then(json => {
-        //             if (json.success) {
-        //                 this.setState({
-        //                     success: json.success,
-        //                     Aduser: json.username,
-        //                     AduserId: json._id
-        //                 })
-        //                 console.log(json.username + json._id);
-        //             } else console.log(json.success + "User Not Found!");
-        //         })
-        //         .catch((err) => console.log("ERROR: ", err))
-        // }
+            fetch(url + 'getuserbyid', {
+                method: 'POST',
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                },
+                body: JSON.stringify({
+                    Aduser: ad.userId
+                })
+            })
+                .then(res => res.json())
+                .then(json => {
+                    if (json.success) {
+                        this.setState({
+                            success: json.success,
+                            Aduser: json.username,
+                            AduserId: json._id
+                        })
+                        console.log(json.username + json._id);
+                    } else console.log(json.success + "User Not Found!");
+                })
+                .catch((err) => console.log("ERROR: ", err))
+        }
     }
 
     onChange = (e) => {
         this.setState({ message: e.target.value });
     }
+
     onClick = () => {
         const {
             Aduser,
@@ -73,8 +86,15 @@ export default class Message extends React.Component {
             currentUserId,
             message
         } = this.state;
+        let details = {
+            Aduser,
+            AduserId,
+            currentUser,
+            currentUserId,
+            message
+        }
 
-        socket.emit('chat message', message);
+        socket.emit('chat message', details);
 
         // fetch(url + 'message', {
         //     method: 'POST',
@@ -100,11 +120,6 @@ export default class Message extends React.Component {
 
     render() {
 
-        socket.on('chat message', (msg) => {
-            console.log(msg);
-            this.setState({ msgArrive: msg })
-        });
-
         return (
             <div>
                 <h1>{this.state.Aduser + this.state.currentUser}</h1>
@@ -119,7 +134,8 @@ export default class Message extends React.Component {
                             </div>
                             <div className="col-10">
                                 <div className="messageBox" id="messageBox">
-                                    {/* {this.state.msgArrive ? this.state.msgArrive.map((msg) => <li>{msg}</li>) : null} */}
+                                    {this.state.currentUser && this.state.msgArrive ? this.state.msgArrive.map((msg, index) => <div style={{ marginLeft: '20px' }} key={index}>{msg[0]} - {msg[1]}</div>) : null}
+                                    <br />
                                     <div className="messageField">
                                         <div className="input-group mb-3">
                                             <input type="text" className="form-control" value={this.state.message} onChange={this.onChange} placeholder="Type Message..." aria-label="Type Message..." aria-describedby="button-addon2" />
@@ -141,3 +157,5 @@ export default class Message extends React.Component {
         )
     }
 }
+
+export default Message;

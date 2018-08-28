@@ -24,7 +24,7 @@ export default class AppRoute extends React.Component {
           <Route path="/signup" component={SignUp} />
           <Route path="/signin" component={SignIn} />
           <Route path="/dashboard" component={Dashboard} />
-          <Route path="/message" component={Message} />
+          <Route path="/message/:id" component={Message} />
           <Route path="/edit/:id" component={EditAd} />
           <Route path="/categories" component={Categories} />
           <Route path="/categories/properties/" component={Properties} />

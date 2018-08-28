@@ -44,9 +44,9 @@ require('./routes')(app);
 io.on('connection', socket => {
   console.log('User connected')
 
-  socket.on('chat message', function (msg) {
-    console.log(msg);
-    io.emit('chat message', msg);
+  socket.on('chat message', function (details) {
+    console.log(details);
+    io.emit('chat message', details);
   });
 
   socket.on('disconnect', () => {

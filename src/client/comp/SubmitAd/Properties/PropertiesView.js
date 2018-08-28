@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../../Header";
 import { Redirect } from 'react-router-dom'
-import { getFromStorage } from "../../../utils/storage";
+import { getFromStorage, setInStorage } from "../../../utils/storage";
 import Loader from '../../loader';
 import SecureHeader from '../../secureHeader';
 
@@ -121,8 +121,9 @@ class PropertiesView extends React.Component {
         //renderRedirect
         console.log("Message")
         if (this.state.redirect) {
+            setInStorage('ad', this.state.redirectKey);
             return <Redirect to={{
-                pathname: '/message',
+                pathname: '/message/' + this.state.currentUser,
                 state: { referrer: this.state.redirectKey }
             }} />
         }
