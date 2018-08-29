@@ -38,7 +38,6 @@ class PropertiesForm extends React.Component {
             edit: false,
             redirect: false,
         }
-        console.log("Image: ", this.props.ad);
     }
 
 
@@ -59,13 +58,11 @@ class PropertiesForm extends React.Component {
     }
 
     fileSelectedHandler = (e) => {
-        //console.log(e.target.files[0])
         this.setState({
             selectedImage: {
                 file: e.target.files[0],
             }
         });
-        console.log(this.state.selectedImage);
     }
 
     handleChange = (e) => {
@@ -183,30 +180,6 @@ class PropertiesForm extends React.Component {
             method: 'PUT',
             mode: "cors",
             body: formData
-            // body: JSON.stringify({
-            //     _id: this.props.ad._id,
-            //     type: type,
-            //     description: description,
-            //     price: price,
-            //     bedrooms: bedrooms,
-            //     bathrooms: bathrooms,
-            //     furnishing: furnishing,
-            //     constructionstatus: constructionstatus,
-            //     listedby: listedby,
-            //     SBArea: SBArea,
-            //     carpetArea: carpetArea,
-            //     bachelorsallowed: bachelorsallowed,
-            //     maintenance: maintenance,
-            //     totalFloors: totalFloors,
-            //     floorNumber: floorNumber,
-            //     carparking: carparking,
-            //     facing: facing,
-            //     projectname: projectname,
-            //     location: location,
-            //     name: name,
-            //     phone: phone,
-            //     selectedImage: selectedImage
-            // })
         }).then(res => res.json())
             .then(json => {
                 if (json.success) {

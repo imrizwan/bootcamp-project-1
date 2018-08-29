@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { getFromStorage } from "../utils/storage";
 import './Message.css';
@@ -28,21 +28,6 @@ class Message extends React.Component {
     }
 
     componentWillMount() {
-
-        // const obj = getFromStorage('olx');
-        // if (obj && obj.username && obj.userId) {
-        //     const { username, userId } = obj;
-
-        //     //socket.on('ad', (ad) => {
-        //     //   console.log(ad)
-        //     //   this.setState({ Aduser: ad[1], AduserId: ad[0] })
-        //     //});
-
-        //     this.setState({
-        //         currentUser: username,
-        //         currentUserId: userId
-        //     })
-        // }
 
         socket.on('chat message', (details) => {
             let a = [...this.state.msgArrive, [details.currentUser, details.message]]
@@ -104,28 +89,6 @@ class Message extends React.Component {
 
         socket.emit('chat message', details);
         this.setState({ message: '' })
-
-
-        // fetch(url + 'message', {
-        //     method: 'POST',
-        //     mode: 'cors',
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //         "Accept": "application/json",
-        //     },
-        //     body: JSON.stringify(
-        //         {
-        //             Aduser: Aduser,
-        //             AduserId: AduserId,
-        //             currentUser: currentUser,
-        //             currentUserId: currentUserId,
-        //             message: message
-        //         })
-        // })
-        //     .then(res => res.json())
-        //     .then(json => {
-        //         console.log(json);
-        //     })
     }
 
     render() {

@@ -6,10 +6,23 @@ var cors = require('cors');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-mongoose.connect(
-  "mongodb://localhost:27017/olxdb",
-  { useNewUrlParser: true }
-);
+mongoose.connect("mongodb://rizwanshaikh:Hello123@ds237192.mlab.com:37192/olxdb", {
+  auth: {
+    user: 'rizwanshaikh',
+    password: 'Hello123'
+  },
+  useNewUrlParser: true
+}, function (err, client) {
+  if (err) {
+    console.log(err);
+  }
+  console.log('connect!!!');
+});
+
+// mongoose.connect(
+//   "mongodb://localhost:27017/olxdb",
+//   { useNewUrlParser: true }
+// );
 let db = mongoose.connection;
 
 //Check DB Connection
