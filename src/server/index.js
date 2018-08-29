@@ -62,19 +62,19 @@ app.get('*', function (req, res) {
 });
 
 
-io.on('connection', socket => {
-  console.log('User connected')
+// io.on('connection', socket => {
+//   console.log('User connected')
 
-  socket.on('chat message', function (details) {
-    if (!details.message) {
-      io.emit('error', "Type a Message!");
-    } else io.emit('chat message', details);
-  });
+//   socket.on('chat message', function (details) {
+//     if (!details.message) {
+//       io.emit('error', "Type a Message!");
+//     } else io.emit('chat message', details);
+//   });
 
-  socket.on('disconnect', () => {
-    console.log('user disconnected')
-  })
-})
+//   socket.on('disconnect', () => {
+//     console.log('user disconnected')
+//   })
+// })
 
 const port = process.env.PORT || 8080;
 

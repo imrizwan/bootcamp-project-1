@@ -414,6 +414,7 @@ module.exports = (app) => {
             location,
             name,
             phone,
+            selectedImage
         } = body;
         // ---------- MULTER UPLOAD FUNCTION -------------
         upload(req, res, function (err) {
@@ -442,7 +443,7 @@ module.exports = (app) => {
                         location: location,
                         name: name,
                         phone: phone,
-                        selectedImage: req.file.filename
+                        selectedImage: req.file ? req.file.filename : selectedImage
                     }
                 }, null, (err, ads) => {
                     if (err) {
