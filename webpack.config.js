@@ -1,6 +1,8 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
+var WebpackPwaManifest = require('webpack-pwa-manifest')
 
 const outputDirectory = "dist";
 
@@ -43,6 +45,24 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./public/index.html",
       favicon: "./public/favicon.ico"
+    }),
+    new ServiceWorkerWebpackPlugin({
+      entry: path.join(__dirname, 'src/client/sw.js'),
+    }),
+    new WebpackPwaManifest({
+      name: 'OLX Progressive Web App',
+      short_name: 'OLX',
+      description: 'My First Progressive Web App!',
+      display: "standalone",
+      orientation: "portrait-primary",
+      background_color: "#fff",
+      theme_color: "#3f51b5",
+      icons: [
+        {
+          src: path.resolve('src/client/favicon.ico'),
+          size: '48x48' // you can also use the specifications pattern
+        }
+      ]
     })
   ]
 };
