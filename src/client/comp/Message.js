@@ -12,40 +12,41 @@ socket.on('connect', function () {
 class Message extends React.Component {
     constructor(props) {
         const ad = getFromStorage('ad');
+        const obj = getFromStorage('olx');
         super(props)
         this.state = {
             Aduser: ad ? ad.username : '',
             AduserId: ad ? ad.userId : '',
-            currentUser: '',
-            currentUserId: '',
+            currentUser: obj ? obj.username : '',
+            currentUserId: obj ? obj.userId : '',
             message: '',
             msgArrive: [],
             details: {},
             sender: '',
             error: '',
-            ad: ''
         }
     }
 
     componentWillMount() {
 
-        const obj = getFromStorage('olx');
-        const ad = getFromStorage('ad');
-        if (obj && obj.username && obj.userId) {
-            const { username, userId } = obj;
-            this.setState({
-                currentUser: username,
-                currentUserId: userId
-            })
-        }
+        // const obj = getFromStorage('olx');
+        // if (obj && obj.username && obj.userId) {
+        //     const { username, userId } = obj;
 
-        socket.on('ad', (ad) => {
-            this.setState({ Aduser: ad.username, AduserId: ad.userId })
-        });
+        //     //socket.on('ad', (ad) => {
+        //     //   console.log(ad)
+        //     //   this.setState({ Aduser: ad[1], AduserId: ad[0] })
+        //     //});
+
+        //     this.setState({
+        //         currentUser: username,
+        //         currentUserId: userId
+        //     })
+        // }
 
         socket.on('chat message', (details) => {
-
             let a = [...this.state.msgArrive, [details.currentUser, details.message]]
+            console.log(a);
             this.setState({ msgArrive: a })
         });
     }
@@ -103,6 +104,8 @@ class Message extends React.Component {
 
         socket.emit('chat message', details);
         this.setState({ message: '' })
+
+
         // fetch(url + 'message', {
         //     method: 'POST',
         //     mode: 'cors',

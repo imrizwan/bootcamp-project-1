@@ -5,6 +5,7 @@ import { getFromStorage } from "../utils/storage";
 import Loader from './loader';
 import SecureHeader from './secureHeader';
 import { url } from '../Variables';
+//import img from "../../../uploads";
 
 export default class Dashboard extends Component {
     constructor(props) {
@@ -151,7 +152,6 @@ export default class Dashboard extends Component {
     }
 
     render() {
-
         const { isLoading, token, username, ads } = this.state;
         if (isLoading) {
             return (<Loader />);
@@ -189,7 +189,7 @@ export default class Dashboard extends Component {
                     {ads ? ads.map((ad, i) => {
                         console.log(ad.selectedImage)
                         return (<div key={ad._id}><div className="card" style={{ height: '80%', width: '18rem', margin: '0 auto' }}>
-                            <img className="card-img-top" src={ad.selectedImage} alt="Card image cap" />
+                            <img className="card-img-top" src={"../../../uploads/" + ad.selectedImage} alt="Card image cap" />
                             <div className="card-body">
                                 <h5 className="card-title">{ad.description}</h5>
                                 <p className="card-text" style={{ fontSize: '15px' }}>{ad.majorCategory} / {ad.category} / {ad.type}</p>

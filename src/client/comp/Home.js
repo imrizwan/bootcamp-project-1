@@ -186,7 +186,7 @@ export default class Home extends Component {
                     <button className="btn btn-outline-success btn-lg btn-block" style={{ width: '80%', margin: '0 auto' }} onClick={this.showAds}>Show Ads</button>
                     <br />
                     {ads ? ads.map((ad, i) => <div key={i}><div className="card" style={{ height: '80%', width: '18rem', margin: '0 auto' }}>
-                        <img className="card-img-top" src="http://via.placeholder.com/286px180/" alt="Card image cap" />
+                        <img className="card-img-top" src={"../../../uploads/" + ad.selectedImage} alt="Card image cap" />
                         <div className="card-body">
                             <h5 className="card-title">{ad.description}</h5>
                             <p className="card-text">{ad.phone}</p>

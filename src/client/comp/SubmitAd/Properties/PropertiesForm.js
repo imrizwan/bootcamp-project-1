@@ -33,11 +33,12 @@ class PropertiesForm extends React.Component {
             name: this.props.ad ? this.props.ad.name : "",
             phone: this.props.ad ? this.props.ad.phone : "",
             selectedImage: {
-                file: null,
+                file: this.props.ad ? this.props.ad.selectedImage : null,
             },
             edit: false,
             redirect: false,
         }
+        console.log("Image: ", this.props.ad);
     }
 
 
@@ -110,37 +111,7 @@ class PropertiesForm extends React.Component {
         fetch(url + 'propertyform', {
             method: 'POST',
             mode: 'cors',
-            // headers: {
-            //     'Content-Type': 'multipart/form-data',
-            //     'Accept': 'application/json'
-            // },
             body: formData
-            // body: JSON.stringify({
-            //     userId: userId,
-            //     majorCategory: majorCategory,
-            //     category: category,
-            //     type: type,
-            //     description: description,
-            //     price: price,
-            //     bedrooms: bedrooms,
-            //     bathrooms: bathrooms,
-            //     furnishing: furnishing,
-            //     constructionstatus: constructionstatus,
-            //     listedby: listedby,
-            //     SBArea: SBArea,
-            //     carpetArea: carpetArea,
-            //     bachelorsallowed: bachelorsallowed,
-            //     maintenance: maintenance,
-            //     totalFloors: totalFloors,
-            //     floorNumber: floorNumber,
-            //     carparking: carparking,
-            //     facing: facing,
-            //     projectname: projectname,
-            //     location: location,
-            //     name: name,
-            //     phone: phone,
-            //     selectedImage: selectedImage.file
-            // })
         })
             .then(res => res.json())
             .then(json => {
@@ -178,43 +149,64 @@ class PropertiesForm extends React.Component {
 
 
     edit = () => {
-        console.log("editpropertyform");
-        let status;
         const {
             type, description, price, bedrooms, bathrooms, furnishing, constructionstatus, listedby, SBArea, carpetArea, bachelorsallowed, maintenance, totalFloors, floorNumber, carparking, facing, projectname, location, name, phone, selectedImage
         } = this.state;
         //Edit here
+
+        var formData = new FormData();
+        formData.append('_id', this.props.ad._id);
+        formData.append('type', type);
+        formData.append('description', description);
+        formData.append('price', price);
+        formData.append('bedrooms', bedrooms);
+        formData.append('bathrooms', bathrooms);
+        formData.append('furnishing', furnishing);
+        formData.append('constructionstatus', constructionstatus);
+        formData.append('listedby', listedby);
+        formData.append('SBArea', SBArea);
+        formData.append('carpetArea', carpetArea);
+        formData.append('bachelorsallowed', bachelorsallowed);
+        formData.append('maintenance', maintenance);
+        formData.append('totalFloors', totalFloors);
+        formData.append('floorNumber', floorNumber);
+        formData.append('carparking', carparking);
+        formData.append('facing', facing);
+        formData.append('projectname', projectname);
+        formData.append('location', location);
+        formData.append('name', name);
+        formData.append('phone', phone);
+        formData.append('selectedImage', selectedImage.file);
+
+
         fetch(url + 'editpropertyform', {
             method: 'PUT',
             mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-            },
-            body: JSON.stringify({
-                _id: this.props.ad._id,
-                type: type,
-                description: description,
-                price: price,
-                bedrooms: bedrooms,
-                bathrooms: bathrooms,
-                furnishing: furnishing,
-                constructionstatus: constructionstatus,
-                listedby: listedby,
-                SBArea: SBArea,
-                carpetArea: carpetArea,
-                bachelorsallowed: bachelorsallowed,
-                maintenance: maintenance,
-                totalFloors: totalFloors,
-                floorNumber: floorNumber,
-                carparking: carparking,
-                facing: facing,
-                projectname: projectname,
-                location: location,
-                name: name,
-                phone: phone,
-                selectedImage: selectedImage
-            })
+            body: formData
+            // body: JSON.stringify({
+            //     _id: this.props.ad._id,
+            //     type: type,
+            //     description: description,
+            //     price: price,
+            //     bedrooms: bedrooms,
+            //     bathrooms: bathrooms,
+            //     furnishing: furnishing,
+            //     constructionstatus: constructionstatus,
+            //     listedby: listedby,
+            //     SBArea: SBArea,
+            //     carpetArea: carpetArea,
+            //     bachelorsallowed: bachelorsallowed,
+            //     maintenance: maintenance,
+            //     totalFloors: totalFloors,
+            //     floorNumber: floorNumber,
+            //     carparking: carparking,
+            //     facing: facing,
+            //     projectname: projectname,
+            //     location: location,
+            //     name: name,
+            //     phone: phone,
+            //     selectedImage: selectedImage
+            // })
         }).then(res => res.json())
             .then(json => {
                 if (json.success) {
@@ -229,7 +221,6 @@ class PropertiesForm extends React.Component {
                     });
                 }
             })
-        //      alert("Updated");
     }
 
     renderRedirect = () => {

@@ -390,7 +390,7 @@ module.exports = (app) => {
         });
     });
 
-    app.put('/api/editpropertyform', function (req, res, next) {
+    app.put('/api/editpropertyform', upload, function (req, res, next) {
         const { body } = req;
         const {
             _id,
@@ -414,47 +414,50 @@ module.exports = (app) => {
             location,
             name,
             phone,
-            selectedImage
         } = body;
-
-        PropertiesForm.updateOne({
-            _id: _id,
-        }, {
-                $set: {
-                    type: type,
-                    description: description,
-                    bedrooms: bedrooms,
-                    bathrooms: bathrooms,
-                    price: price,
-                    furnishing: furnishing,
-                    constructionstatus: constructionstatus,
-                    listedby: listedby,
-                    SBArea: SBArea,
-                    carpetArea: carpetArea,
-                    bachelorsallowed: bachelorsallowed,
-                    maintenance: maintenance,
-                    totalFloors: totalFloors,
-                    floorNumber: floorNumber,
-                    carparking: carparking,
-                    facing: facing,
-                    projectname: projectname,
-                    location: location,
-                    name: name,
-                    phone: phone,
-                }
-            }, null, (err, ads) => {
-                if (err) {
-                    return res.send({
-                        success: false,
-                        message: "ERROR!"
-                    });
-                } else {
-                    return res.send({
-                        success: true,
-                        message: "Udated!"
-                    });
-                }
-            });
+        // ---------- MULTER UPLOAD FUNCTION -------------
+        upload(req, res, function (err) {
+            //save the image
+            PropertiesForm.updateOne({
+                _id: _id,
+            }, {
+                    $set: {
+                        type: type,
+                        description: description,
+                        bedrooms: bedrooms,
+                        bathrooms: bathrooms,
+                        price: price,
+                        furnishing: furnishing,
+                        constructionstatus: constructionstatus,
+                        listedby: listedby,
+                        SBArea: SBArea,
+                        carpetArea: carpetArea,
+                        bachelorsallowed: bachelorsallowed,
+                        maintenance: maintenance,
+                        totalFloors: totalFloors,
+                        floorNumber: floorNumber,
+                        carparking: carparking,
+                        facing: facing,
+                        projectname: projectname,
+                        location: location,
+                        name: name,
+                        phone: phone,
+                        selectedImage: req.file.filename
+                    }
+                }, null, (err, ads) => {
+                    if (err) {
+                        return res.send({
+                            success: false,
+                            message: "ERROR!"
+                        });
+                    } else {
+                        return res.send({
+                            success: true,
+                            message: "Udated!"
+                        });
+                    }
+                });
+        });
     });
 
     app.delete('/api/delete', function (req, res, next) {

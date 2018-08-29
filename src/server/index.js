@@ -50,11 +50,6 @@ io.on('connection', socket => {
     } else io.emit('chat message', details);
   });
 
-  socket.on('ad', function (ad) {
-    console.log(ad);
-    io.emit('ad', ad);
-  });
-
   socket.on('disconnect', () => {
     console.log('user disconnected')
   })

@@ -5,10 +5,10 @@ import { getFromStorage, setInStorage } from "../../../utils/storage";
 import Loader from '../../loader';
 import { url } from '../../../Variables';
 import SecureHeader from '../../secureHeader';
-var socket = require('socket.io-client')('http://localhost:8080');
-socket.on('connect', function () {
-    console.log("Client Connected");
-});
+// var socket = require('socket.io-client')('http://localhost:8080');
+// socket.on('connect', function () {
+//     console.log("Client Connected");
+// });
 
 class PropertiesView extends React.Component {
     constructor(props) {
@@ -124,7 +124,7 @@ class PropertiesView extends React.Component {
         //renderRedirect
         if (this.state.redirect) {
             setInStorage('ad', this.state.redirectKey);
-            socket.emit('ad', this.state.redirectKey);
+            //socket.emit('ad', this.state.redirectKey);
             return <Redirect to={{
                 pathname: '/message/' + this.state.currentUser,
                 state: { referrer: this.state.redirectKey }
@@ -181,7 +181,7 @@ class PropertiesView extends React.Component {
                     <div style={{ margin: '20px 0 20px 0' }}>
                         <div className="jumbotron jumbotron-fluid" style={{ borderRadius: '8px', width: '80%', margin: '0 auto' }} >
                             <div className="container">
-                                <img className="card-img-top" src="http://via.placeholder.com/286px180/" style={{ margin: '0 auto' }} alt="Card image cap" />
+                                <img className="card-img-top" src={"../../../../../uploads/" + ad.selectedImage} style={{ margin: '0 auto' }} alt="Card image cap" />
                                 <br />
                                 <h1 className="display-6">{majorCategory} / {category} / {type}</h1>
                                 <h1 className="lead">Description: {description}</h1>
