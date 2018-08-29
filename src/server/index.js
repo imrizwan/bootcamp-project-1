@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 var cors = require('cors');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+const path = require("path")
 
 mongoose.connect("mongodb://rizwanshaikh:Hello123@ds237192.mlab.com:37192/olxdb", {
   auth: {
@@ -54,6 +55,8 @@ require('./routes')(app);
 //  response.status(404).send("Page not found!");
 //});
 
+app.use(express.static(path.join("..", __dirname, "client", "build")))
+
 io.on('connection', socket => {
   console.log('User connected')
 
@@ -67,5 +70,9 @@ io.on('connection', socket => {
     console.log('user disconnected')
   })
 })
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
 
 http.listen(8080, () => console.log("Listening on port 8080!"));
