@@ -55,7 +55,7 @@ require('./routes')(app);
 //  response.status(404).send("Page not found!");
 //});
 
-app.use(express.static(path.join('..', '..', __dirname, 'build')));
+app.use(express.static(path.join('..', '..', __dirname, 'dist')));
 
 io.on('connection', socket => {
   console.log('User connected')
@@ -70,6 +70,10 @@ io.on('connection', socket => {
     console.log('user disconnected')
   })
 })
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/../../dist/index.html'));
+});
 
 const port = process.env.PORT || 8080;
 
