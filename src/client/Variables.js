@@ -1,1 +1,1 @@
-export const url = `https://olx-axiom.herokuapp.com/api/`;
+export const url = `/api/`;
