@@ -55,7 +55,7 @@ require('./routes')(app);
 //  response.status(404).send("Page not found!");
 //});
 
-app.use(express.static(path.join("..", __dirname, "client", "build")))
+app.use(express.static(path.join('..', __dirname, 'build')));
 
 io.on('connection', socket => {
   console.log('User connected')
@@ -75,4 +75,6 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "build", "index.html"));
 });
 
-http.listen(8080, () => console.log("Listening on port 8080!"));
+const port = process.env.PORT || 8080;
+
+http.listen(port, () => console.log("Listening on port 8080!"));
