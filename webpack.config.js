@@ -53,14 +53,15 @@ module.exports = {
       name: 'OLX Progressive Web App',
       short_name: 'OLX',
       description: 'My First Progressive Web App!',
-      display: "standalone",
+      display: "fullscreen",
+      start_url: "/",
       orientation: "portrait-primary",
       background_color: "#fff",
       theme_color: "#3f51b5",
       icons: [
         {
-          src: path.resolve('src/client/favicon.ico'),
-          size: '48x48' // you can also use the specifications pattern
+          src: path.resolve('src/client/icon.png'),
+          size: '144x144' // you can also use the specifications pattern
         }
       ]
     })

@@ -23,7 +23,7 @@ class Header extends React.Component {
                             </li>
                             {this.props.isAuth ? (
                                 <li className='nav-item'>
-                                    <Link to='/dashboard' className='nav-link'>Account</Link>
+                                    <Link to='/dashboard' className='nav-link'>Dashboard</Link>
                                 </li>
                             ) : (
                                     <li className="nav-item dropdown">

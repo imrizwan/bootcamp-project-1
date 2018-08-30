@@ -161,6 +161,9 @@ export default class Dashboard extends Component {
                 <div>
                     <Header isAuth={true} />
                     <SecureHeader logout={this.logout} username={username} />
+
+                    <h1 style={{ width: '80%', margin: '0 auto', padding: '20px 0 20px 0' }}>Your Ads Will Be Displayed Here, Search By Category</h1>
+
                     <div className="form-group" style={{ width: '80%', margin: '0 auto', padding: '20px 0 20px 0' }}>
                         <select className="form-control form-control-lg" name="majorCategory" value={this.state.majorCategory} onChange={this.handleChange}>
                             <option value="">Select Ad Category...</option>
