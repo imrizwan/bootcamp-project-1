@@ -1,0 +1,17 @@
+{
+  "icons": [
+    {
+      "src": "/icon_48x48.ad13179b567f3ff7b14378a5232870d1.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ],
+  "name": "OLX Progressive Web App",
+  "short_name": "OLX",
+  "orientation": "portrait-primary",
+  "display": "standalone",
+  "start_url": ".",
+  "description": "My First Progressive Web App!",
+  "background_color": "#fff",
+  "theme_color": "#3f51b5"
+}
