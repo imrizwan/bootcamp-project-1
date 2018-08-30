@@ -1,29 +1,45 @@
-const PropertiesForm = require('../../models/PropertiesForm');
 const User = require('../../models/User');
-
+var cloudinary = require('cloudinary');
+var cloudinaryStorage = require('multer-storage-cloudinary');
 const path = require("path");
 //add multer to manage multipart form
 const multer = require("multer");
+const PropertiesForm = require('../../models/PropertiesForm');
 
-//storage management for the file
-//that will be uploaded
-let storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads/')
-    },
+cloudinary.config({
+    cloud_name: 'dk50mtiou',
+    api_key: '483684842479958',
+    api_secret: 'TKME8__epyvYU8OInYBBq5KbMx4'
+});
+
+var storage = cloudinaryStorage({
+    cloudinary: cloudinary,
+    folder: 'folder',
+    allowedFormats: ['jpg', 'png'],
     filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+        cb(undefined, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
     }
-})
+});
+
+// storage management for the file
+// that will be uploaded
+// const storage = multer.diskStorage({
+//     destination(req, file, cb) {
+//         cb(null, './uploads/')
+//     },
+//     filename(req, file, cb) {
+//         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+//     }
+// });
 
 
 
-//management of the storage and the file that will be uploaded 
-//.single expects the name of the file input field
-const upload = multer({ storage: storage }).single("selectedImage");
+// management of the storage and the file that will be uploaded
+// .single expects the name of the file input field
+const upload = multer({ storage }).single('selectedImage');
 
 module.exports = (app) => {
-    app.post('/api/propertyform', upload, function (req, res, next) {
+    app.post('/api/propertyform', upload, (req, res, next) => {
 
         const { body } = req;
         const {
@@ -53,128 +69,128 @@ module.exports = (app) => {
             phone,
         } = body;
 
-        if (!type) {
-            return res.send({
-                success: false,
-                message: "ERROR: Property type can not be blank!!!"
-            })
-        }
-        if (!description) {
-            return res.send({
-                success: false,
-                message: "ERROR: Description can not be blank!!!"
-            })
-        }
-        if (!price) {
-            return res.send({
-                success: false,
-                message: "ERROR: Price can not be blank!!!"
-            })
-        }
-        if (!bedrooms) {
-            return res.send({
-                success: false,
-                message: "ERROR: Bedrooms can not be blank!!!"
-            })
-        }
-        if (!bathrooms) {
-            return res.send({
-                success: false,
-                message: "ERROR: Bathrooms can not be blank!!!"
-            })
-        }
-        if (!furnishing) {
-            return res.send({
-                success: false,
-                message: "ERROR: Furnishing can not be blank!!!"
-            })
-        }
-        if (category === "New Projects") {
-            if (!constructionstatus) {
-                return res.send({
-                    success: false,
-                    message: "ERROR: Construction Status can not be blank!!!"
-                })
-            }
-        }
-        if (!listedby) {
-            return res.send({
-                success: false,
-                message: "ERROR: Listed By can not be blank!!!"
-            })
-        }
-        if (!SBArea) {
-            return res.send({
-                success: false,
-                message: "ERROR: SB Area can not be blank!!!"
-            })
-        }
-        if (!carpetArea) {
-            return res.send({
-                success: false,
-                message: "ERROR: Carpet Area can not be blank!!!"
-            })
-        }
-        if (!bachelorsallowed) {
-            return res.send({
-                success: false,
-                message: "ERROR: Bachelors Allowed can not be blank!!!"
-            })
-        }
-        if (!maintenance) {
-            return res.send({
-                success: false,
-                message: "ERROR: Maintenance can not be blank!!!"
-            })
-        }
-        if (!totalFloors) {
-            return res.send({
-                success: false,
-                message: "ERROR: Total Floors can not be blank!!!"
-            })
-        }
-        if (!floorNumber) {
-            return res.send({
-                success: false,
-                message: "ERROR: Floor Number can not be blank!!!"
-            })
-        }
-        if (!carparking) {
-            return res.send({
-                success: false,
-                message: "ERROR: Car parking can not be blank!!!"
-            })
-        }
-        if (!facing) {
-            return res.send({
-                success: false,
-                message: "ERROR: Facing can not be blank!!!"
-            })
-        }
-        if (!projectname) {
-            return res.send({
-                success: false,
-                message: "ERROR: project name can not be blank!!!"
-            })
-        }
-        if (!location) {
-            return res.send({
-                success: false,
-                message: "ERROR: Location can not be blank!!!"
-            })
-        }
-        if (!name) {
-            return res.send({
-                success: false,
-                message: "ERROR: Name can not be blank!!!"
-            })
-        }
-        if (!phone) {
-            return res.send({
-                success: false,
-                message: "ERROR: Phone can not be blank!!!"
-            })
-        }
+        // if (!type) {
+        //     return res.send({
+        //         success: false,
+        //         message: "ERROR: Property type can not be blank!!!"
+        //     })
+        // }
+        // if (!description) {
+        //     return res.send({
+        //         success: false,
+        //         message: "ERROR: Description can not be blank!!!"
+        //     })
+        // }
+        // if (!price) {
+        //     return res.send({
+        //         success: false,
+        //         message: "ERROR: Price can not be blank!!!"
+        //     })
+        // }
+        // if (!bedrooms) {
+        //     return res.send({
+        //         success: false,
+        //         message: "ERROR: Bedrooms can not be blank!!!"
+        //     })
+        // }
+        // if (!bathrooms) {
+        //     return res.send({
+        //         success: false,
+        //         message: "ERROR: Bathrooms can not be blank!!!"
+        //     })
+        // }
+        // if (!furnishing) {
+        //     return res.send({
+        //         success: false,
+        //         message: "ERROR: Furnishing can not be blank!!!"
+        //     })
+        // }
+        // if (category === "New Projects") {
+        //     if (!constructionstatus) {
+        //         return res.send({
+        //             success: false,
+        //             message: "ERROR: Construction Status can not be blank!!!"
+        //         })
+        //     }
+        // }
+        // if (!listedby) {
+        //     return res.send({
+        //         success: false,
+        //         message: "ERROR: Listed By can not be blank!!!"
+        //     })
+        // }
+        // if (!SBArea) {
+        //     return res.send({
+        //         success: false,
+        //         message: "ERROR: SB Area can not be blank!!!"
+        //     })
+        // }
+        // if (!carpetArea) {
+        //     return res.send({
+        //         success: false,
+        //         message: "ERROR: Carpet Area can not be blank!!!"
+        //     })
+        // }
+        // if (!bachelorsallowed) {
+        //     return res.send({
+        //         success: false,
+        //         message: "ERROR: Bachelors Allowed can not be blank!!!"
+        //     })
+        // }
+        // if (!maintenance) {
+        //     return res.send({
+        //         success: false,
+        //         message: "ERROR: Maintenance can not be blank!!!"
+        //     })
+        // }
+        // if (!totalFloors) {
+        //     return res.send({
+        //         success: false,
+        //         message: "ERROR: Total Floors can not be blank!!!"
+        //     })
+        // }
+        // if (!floorNumber) {
+        //     return res.send({
+        //         success: false,
+        //         message: "ERROR: Floor Number can not be blank!!!"
+        //     })
+        // }
+        // if (!carparking) {
+        //     return res.send({
+        //         success: false,
+        //         message: "ERROR: Car parking can not be blank!!!"
+        //     })
+        // }
+        // if (!facing) {
+        //     return res.send({
+        //         success: false,
+        //         message: "ERROR: Facing can not be blank!!!"
+        //     })
+        // }
+        // if (!projectname) {
+        //     return res.send({
+        //         success: false,
+        //         message: "ERROR: project name can not be blank!!!"
+        //     })
+        // }
+        // if (!location) {
+        //     return res.send({
+        //         success: false,
+        //         message: "ERROR: Location can not be blank!!!"
+        //     })
+        // }
+        // if (!name) {
+        //     return res.send({
+        //         success: false,
+        //         message: "ERROR: Name can not be blank!!!"
+        //     })
+        // }
+        // if (!phone) {
+        //     return res.send({
+        //         success: false,
+        //         message: "ERROR: Phone can not be blank!!!"
+        //     })
+        // }
 
         // ---------- MULTER UPLOAD FUNCTION -------------
         upload(req, res, function (err) {
@@ -224,11 +240,16 @@ module.exports = (app) => {
                     newForm.location = location;
                     newForm.name = name;
                     newForm.phone = phone;
-                    newForm.selectedImage = req.file.filename;
-                    console.log(req.file);
+                    newForm.selectedImage = req.file.secure_url;
+
+                    // cloudinary.uploader.upload(req.file, function (result) {
+                    //     console.log("Cloudinary: ", result)
+                    // });
+
                     //save the image
                     newForm.save((err, user) => {
                         if (err) {
+                            console.log(err);
                             return res.send({
                                 success: false,
                                 message: "ERROR: Server error!!!"
@@ -249,7 +270,7 @@ module.exports = (app) => {
     });
 
 
-    app.post('/api/dashboard', upload, function (req, res, next) {
+    app.post('/api/dashboard', upload, (req, res, next) => {
         const { body } = req;
         const { userId, category, majorCategory } = body;
 
@@ -298,7 +319,7 @@ module.exports = (app) => {
         }
     });
 
-    app.post('/api/public', function (req, res, next) {
+    app.post('/api/public', (req, res, next) => {
 
         const { body } = req;
         const { userId, category, majorCategory } = body;
@@ -346,32 +367,31 @@ module.exports = (app) => {
     });
 
 
-
-    app.post("/api/getuserbyid", async (req, res) => {
+    app.post('/api/getuserbyid', async (req, res) => {
 
         try {
             await User.find({
                 _id: req.body.Aduser
             }, (err, user) => {
                 if (err) {
-                    console.log("ERROR FROM DASHBOARD", err);
+                    console.log('ERROR FROM DASHBOARD', err);
                 } else if (user.length > 0) {
-                    let username = user[0].username;
-                    let _id = user[0]._id;
+                    const username = user[0].username;
+                    const _id = user[0]._id;
                     return res.send({
                         success: true,
-                        username: username,
-                        _id: _id
+                        username,
+                        _id
                     });
                 }
             });
         } catch (error) {
-            res.sendStatus(500)
-            console.error(error)
+            res.sendStatus(500);
+            console.error(error);
         }
-    })
+    });
 
-    app.post('/api/getadbyid', function (req, res, next) {
+    app.post('/api/getadbyid', (req, res, next) => {
 
         const { body } = req;
         const { _id } = body;
@@ -390,7 +410,7 @@ module.exports = (app) => {
         });
     });
 
-    app.put('/api/editpropertyform', upload, function (req, res, next) {
+    app.put('/api/editpropertyform', upload, (req, res, next) => {
         const { body } = req;
         const {
             _id,
@@ -443,7 +463,7 @@ module.exports = (app) => {
                         location: location,
                         name: name,
                         phone: phone,
-                        selectedImage: req.file ? req.file.filename : selectedImage
+                        selectedImage: req.file ? req.file.secure_url : selectedImage
                     }
                 }, null, (err, ads) => {
                     if (err) {
@@ -461,7 +481,7 @@ module.exports = (app) => {
         });
     });
 
-    app.delete('/api/delete', function (req, res, next) {
+    app.delete('/api/delete', (req, res, next) => {
 
         if (req.body._id) {
             const { _id } = req.body;
@@ -482,4 +502,4 @@ module.exports = (app) => {
         }
         else console.log("No User");
     });
-}
+};

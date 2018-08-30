@@ -161,10 +161,11 @@ class PropertiesView extends React.Component {
             location,
             name,
             phone,
-            file
+            selectedImage
         } = this.props.location.state.referrer;
 
         const ad = this.props.location.state.referrer;
+        console.log(ad);
         const {
             currentUser
         } = this.state;
@@ -181,7 +182,7 @@ class PropertiesView extends React.Component {
                     <div style={{ margin: '20px 0 20px 0' }}>
                         <div className="jumbotron jumbotron-fluid" style={{ borderRadius: '8px', width: '80%', margin: '0 auto' }} >
                             <div className="container">
-                                <img className="card-img-top" src={"../../../../../uploads/" + ad.selectedImage} style={{ margin: '0 auto' }} alt="Card image cap" />
+                                <img className="card-img-top" src={selectedImage} style={{ margin: '0 auto' }} alt="Card image cap" />
                                 <br />
                                 <h1 className="display-6">{majorCategory} / {category} / {type}</h1>
                                 <h1 className="lead">Description: {description}</h1>
@@ -316,7 +317,7 @@ class PropertiesView extends React.Component {
                 <div style={{ margin: '20px 0 20px 0' }}>
                     <div className="jumbotron jumbotron-fluid" style={{ borderRadius: '8px', width: '80%', margin: '0 auto' }} >
                         <div className="container">
-                            <img className="card-img-top" src="http://via.placeholder.com/286px180/" style={{ margin: '0 auto' }} alt="Card image cap" />
+                            <img className="card-img-top" src={selectedImage} style={{ margin: '0 auto' }} alt="Card image cap" />
                             <br />
                             <h1 className="display-6">{majorCategory} / {category} / {type}</h1>
                             <h1 className="lead">Description: {description}</h1>

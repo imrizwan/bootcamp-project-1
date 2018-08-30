@@ -4,10 +4,10 @@ import { getFromStorage } from "../utils/storage";
 import './Message.css';
 import { url } from '../Variables';
 
-var socket = require('socket.io-client')('http://localhost:8080');
-socket.on('connect', function () {
-    console.log("Client Connected");
-});
+// var socket = require('socket.io-client')('http://localhost:8080');
+// socket.on('connect', function () {
+//     console.log("Client Connected");
+// });
 
 class Message extends React.Component {
     constructor(props) {
@@ -29,11 +29,11 @@ class Message extends React.Component {
 
     componentWillMount() {
 
-        socket.on('chat message', (details) => {
-            let a = [...this.state.msgArrive, [details.currentUser, details.message]]
-            console.log(a);
-            this.setState({ msgArrive: a })
-        });
+        // socket.on('chat message', (details) => {
+        //     let a = [...this.state.msgArrive, [details.currentUser, details.message]]
+        //     console.log(a);
+        //     this.setState({ msgArrive: a })
+        // });
     }
 
     //componentWillMount() {
@@ -107,7 +107,7 @@ class Message extends React.Component {
                             </div>
                             <div className="col-10">
                                 <div className="messageBox" id="messageBox">
-                                    {this.state.currentUser && this.state.msgArrive ? this.state.msgArrive.map((msg, index) => <div style={{ marginLeft: '20px' }} key={index}>{msg[0]} - {msg[1]}</div>) : null}
+                                    {/*this.state.currentUser && this.state.msgArrive ? this.state.msgArrive.map((msg, index) => <div style={{ marginLeft: '20px' }} key={index}>{msg[0]} - {msg[1]}</div>) : null*/}
                                     <br />
                                     <div className="messageField">
                                         <div className="input-group mb-3">

@@ -187,9 +187,8 @@ export default class Dashboard extends Component {
                     <button className="btn btn-outline-success btn-lg btn-block" style={{ width: '80%', margin: '0 auto' }} onClick={this.showAds}>Show My Ads</button>
                     <br />
                     {ads ? ads.map((ad, i) => {
-                        console.log(ad.selectedImage)
                         return (<div key={ad._id}><div className="card" style={{ height: '80%', width: '18rem', margin: '0 auto' }}>
-                            <img className="card-img-top" src={"../../../uploads/" + ad.selectedImage} alt="Card image cap" />
+                            <img className="card-img-top" src={ad.selectedImage} alt="Card image cap" />
                             <div className="card-body">
                                 <h5 className="card-title">{ad.description}</h5>
                                 <p className="card-text" style={{ fontSize: '15px' }}>{ad.majorCategory} / {ad.category} / {ad.type}</p>
