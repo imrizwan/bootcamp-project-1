@@ -1,4 +1,4 @@
-const DEBUG = false
+const DEBUG = true
 
 // When the user navigates to your site,
 // the browser tries to redownload the script file that defined the service
