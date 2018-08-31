@@ -1,4 +1,4 @@
-Full stack web application using React, Node.js, Express and Webpack. configured with webpack-dev-server, eslint, prettier and babel.
+Full stack web application using React, Node.js, Express and Webpack.
 
 ## Quick Start
 
@@ -22,4 +22,4 @@ yarn build (or npm run build)
 yarn start (or npm start)
 ```
 
-## Demo: https://olx-axiom.herokuapp.com/
+## Demo: https://olx-final.herokuapp.com/

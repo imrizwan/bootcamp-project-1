@@ -69,128 +69,128 @@ module.exports = (app) => {
             phone,
         } = body;
 
-        // if (!type) {
-        //     return res.send({
-        //         success: false,
-        //         message: "ERROR: Property type can not be blank!!!"
-        //     })
-        // }
-        // if (!description) {
-        //     return res.send({
-        //         success: false,
-        //         message: "ERROR: Description can not be blank!!!"
-        //     })
-        // }
-        // if (!price) {
-        //     return res.send({
-        //         success: false,
-        //         message: "ERROR: Price can not be blank!!!"
-        //     })
-        // }
-        // if (!bedrooms) {
-        //     return res.send({
-        //         success: false,
-        //         message: "ERROR: Bedrooms can not be blank!!!"
-        //     })
-        // }
-        // if (!bathrooms) {
-        //     return res.send({
-        //         success: false,
-        //         message: "ERROR: Bathrooms can not be blank!!!"
-        //     })
-        // }
-        // if (!furnishing) {
-        //     return res.send({
-        //         success: false,
-        //         message: "ERROR: Furnishing can not be blank!!!"
-        //     })
-        // }
-        // if (category === "New Projects") {
-        //     if (!constructionstatus) {
-        //         return res.send({
-        //             success: false,
-        //             message: "ERROR: Construction Status can not be blank!!!"
-        //         })
-        //     }
-        // }
-        // if (!listedby) {
-        //     return res.send({
-        //         success: false,
-        //         message: "ERROR: Listed By can not be blank!!!"
-        //     })
-        // }
-        // if (!SBArea) {
-        //     return res.send({
-        //         success: false,
-        //         message: "ERROR: SB Area can not be blank!!!"
-        //     })
-        // }
-        // if (!carpetArea) {
-        //     return res.send({
-        //         success: false,
-        //         message: "ERROR: Carpet Area can not be blank!!!"
-        //     })
-        // }
-        // if (!bachelorsallowed) {
-        //     return res.send({
-        //         success: false,
-        //         message: "ERROR: Bachelors Allowed can not be blank!!!"
-        //     })
-        // }
-        // if (!maintenance) {
-        //     return res.send({
-        //         success: false,
-        //         message: "ERROR: Maintenance can not be blank!!!"
-        //     })
-        // }
-        // if (!totalFloors) {
-        //     return res.send({
-        //         success: false,
-        //         message: "ERROR: Total Floors can not be blank!!!"
-        //     })
-        // }
-        // if (!floorNumber) {
-        //     return res.send({
-        //         success: false,
-        //         message: "ERROR: Floor Number can not be blank!!!"
-        //     })
-        // }
-        // if (!carparking) {
-        //     return res.send({
-        //         success: false,
-        //         message: "ERROR: Car parking can not be blank!!!"
-        //     })
-        // }
-        // if (!facing) {
-        //     return res.send({
-        //         success: false,
-        //         message: "ERROR: Facing can not be blank!!!"
-        //     })
-        // }
-        // if (!projectname) {
-        //     return res.send({
-        //         success: false,
-        //         message: "ERROR: project name can not be blank!!!"
-        //     })
-        // }
-        // if (!location) {
-        //     return res.send({
-        //         success: false,
-        //         message: "ERROR: Location can not be blank!!!"
-        //     })
-        // }
-        // if (!name) {
-        //     return res.send({
-        //         success: false,
-        //         message: "ERROR: Name can not be blank!!!"
-        //     })
-        // }
-        // if (!phone) {
-        //     return res.send({
-        //         success: false,
-        //         message: "ERROR: Phone can not be blank!!!"
-        //     })
-        // }
+        if (!type) {
+            return res.send({
+                success: false,
+                message: "ERROR: Property type can not be blank!!!"
+            })
+        }
+        if (!description) {
+            return res.send({
+                success: false,
+                message: "ERROR: Description can not be blank!!!"
+            })
+        }
+        if (!price) {
+            return res.send({
+                success: false,
+                message: "ERROR: Price can not be blank!!!"
+            })
+        }
+        if (!bedrooms) {
+            return res.send({
+                success: false,
+                message: "ERROR: Bedrooms can not be blank!!!"
+            })
+        }
+        if (!bathrooms) {
+            return res.send({
+                success: false,
+                message: "ERROR: Bathrooms can not be blank!!!"
+            })
+        }
+        if (!furnishing) {
+            return res.send({
+                success: false,
+                message: "ERROR: Furnishing can not be blank!!!"
+            })
+        }
+        if (category === "New Projects") {
+            if (!constructionstatus) {
+                return res.send({
+                    success: false,
+                    message: "ERROR: Construction Status can not be blank!!!"
+                })
+            }
+        }
+        if (!listedby) {
+            return res.send({
+                success: false,
+                message: "ERROR: Listed By can not be blank!!!"
+            })
+        }
+        if (!SBArea) {
+            return res.send({
+                success: false,
+                message: "ERROR: SB Area can not be blank!!!"
+            })
+        }
+        if (!carpetArea) {
+            return res.send({
+                success: false,
+                message: "ERROR: Carpet Area can not be blank!!!"
+            })
+        }
+        if (!bachelorsallowed) {
+            return res.send({
+                success: false,
+                message: "ERROR: Bachelors Allowed can not be blank!!!"
+            })
+        }
+        if (!maintenance) {
+            return res.send({
+                success: false,
+                message: "ERROR: Maintenance can not be blank!!!"
+            })
+        }
+        if (!totalFloors) {
+            return res.send({
+                success: false,
+                message: "ERROR: Total Floors can not be blank!!!"
+            })
+        }
+        if (!floorNumber) {
+            return res.send({
+                success: false,
+                message: "ERROR: Floor Number can not be blank!!!"
+            })
+        }
+        if (!carparking) {
+            return res.send({
+                success: false,
+                message: "ERROR: Car parking can not be blank!!!"
+            })
+        }
+        if (!facing) {
+            return res.send({
+                success: false,
+                message: "ERROR: Facing can not be blank!!!"
+            })
+        }
+        if (!projectname) {
+            return res.send({
+                success: false,
+                message: "ERROR: project name can not be blank!!!"
+            })
+        }
+        if (!location) {
+            return res.send({
+                success: false,
+                message: "ERROR: Location can not be blank!!!"
+            })
+        }
+        if (!name) {
+            return res.send({
+                success: false,
+                message: "ERROR: Name can not be blank!!!"
+            })
+        }
+        if (!phone) {
+            return res.send({
+                success: false,
+                message: "ERROR: Phone can not be blank!!!"
+            })
+        }
 
         // ---------- MULTER UPLOAD FUNCTION -------------
         upload(req, res, function (err) {
