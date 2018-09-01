@@ -3,7 +3,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 //const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 var WebpackPwaManifest = require('webpack-pwa-manifest')
-const ManifestPlugin = require('webpack-manifest-plugin');
+var ManifestPlugin = require('webpack-manifest-plugin');
+
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 
 const outputDirectory = "dist";

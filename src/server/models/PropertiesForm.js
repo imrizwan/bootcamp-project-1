@@ -98,13 +98,13 @@ var PropertiesFormSchema = new Schema({
         type: String,
         default: ''
     },
-    timeStamp: {
-        type: Date,
-        default: Date.now()
-    },
     selectedImage: {
         type: String,
         required: true
+    },
+    timeStamp: {
+        type: Date,
+        default: Date.now()
     }
 });
 

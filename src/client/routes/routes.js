@@ -3,6 +3,7 @@ import { Router, Route, Switch } from "react-router-dom";
 import createHistory from 'history/createBrowserHistory';
 import Dashboard from "../comp/Dashboard";
 import Message from "../comp/Message";
+import AllMessages from "../comp/AllMessages";
 import EditAd from "../comp/EditAd";
 import Home from "../comp/Home";
 import SignIn from "../comp/SignIn";
@@ -25,6 +26,7 @@ export default class AppRoute extends React.Component {
           <Route path="/signin" component={SignIn} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/message/:id" component={Message} />
+          <Route path="/messages/" component={AllMessages} />
           <Route path="/edit/:id" component={EditAd} />
           <Route path="/categories" component={Categories} />
           <Route path="/categories/properties/" component={Properties} />

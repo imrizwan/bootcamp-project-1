@@ -20,7 +20,7 @@ class SecureHeader extends React.Component {
                     <div className="form-inline my-2 my-lg-0">
                         <button className="btn btn-outline-danger my-2 my-sm-0" style={{ marginRight: '20px' }} onClick={this.props.logout}>Log Out</button>
                         <Link className="btn btn-outline-success my-2 my-sm-0" style={{ marginRight: '20px' }} to="/categories" >Submit an Ad</Link>
-                        <Link className="btn btn-outline-success my-2 my-sm-0" style={{ marginRight: '20px' }} to={"/message/" + this.state.userId} >Messages</Link>
+                        <Link className="btn btn-outline-success my-2 my-sm-0" style={{ marginRight: '20px' }} to="/messages" >Messages</Link>
                     </div>
                     {username ? (
                         <div className="form-inline my-2 my-lg-2 my-md-2">

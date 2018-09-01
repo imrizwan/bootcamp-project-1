@@ -125,8 +125,9 @@ class PropertiesView extends React.Component {
         if (this.state.redirect) {
             setInStorage('ad', this.state.redirectKey);
             //socket.emit('ad', this.state.redirectKey);
+            console.log(this.state.redirectKey)
             return <Redirect to={{
-                pathname: '/message/' + this.state.currentUser,
+                pathname: '/message/' + this.state.currentUser + this.state.redirectKey.userId,
                 state: { referrer: this.state.redirectKey }
             }} />
         }
@@ -165,7 +166,6 @@ class PropertiesView extends React.Component {
         } = this.props.location.state.referrer;
 
         const ad = this.props.location.state.referrer;
-        console.log(ad);
         const {
             currentUser
         } = this.state;

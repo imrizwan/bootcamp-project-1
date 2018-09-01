@@ -76,6 +76,8 @@ class PropertiesForm extends React.Component {
         } = this.state;
         // post request
 
+        console.log(username, userId)
+
 
         var formData = new FormData();
         formData.append('userId', userId);
@@ -104,6 +106,7 @@ class PropertiesForm extends React.Component {
         formData.append('phone', phone);
         formData.append('selectedImage', selectedImage.file);
 
+        console.log(formData)
 
         fetch(url + 'propertyform', {
             method: 'POST',
@@ -113,6 +116,7 @@ class PropertiesForm extends React.Component {
             .then(res => res.json())
             .then(json => {
                 if (json.success) {
+                    alert("Success!");
                     this.setState({
                         formError: json.message,
                         type: "",

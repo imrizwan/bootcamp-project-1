@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
-import submitAdReducer from './reducers/reducer';
+import submitChatReducer from './reducers/reducer';
 
 const composeEnhancers =
   typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -12,7 +12,7 @@ const composeEnhancers =
 export default () => {
   const store = createStore(
     combineReducers({
-      submitAd: submitAdReducer,
+      submitChat: submitChatReducer,
     }),
     composeEnhancers(
       applyMiddleware(thunk)
