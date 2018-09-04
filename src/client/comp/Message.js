@@ -159,19 +159,11 @@ class Message extends React.Component {
             message,
             msgArrive
         } = this.state;
-        let details = {
-            Aduser,
-            AduserId,
-            currentUser,
-            currentUserId,
-            message,
-            msgArrive
-        }
         //socket.emit('chat message', details);
         //this.props.dispatch(startSubmitChat(details));
 
         event.preventDefault();
-
+        console.log(Aduser)
         if (message) {
             const ref = database.ref(`Chats/` + this.props.match.params.id)
             ref.push({ name: currentUser, message });

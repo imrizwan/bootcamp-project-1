@@ -1,7 +1,6 @@
 import 'firebase/database';
 import firebase from 'firebase/app'
-import 'firebase/auth';
-import 'firebase/storage';
+import 'firebase/messaging';
 
 var config = {
   apiKey: "AIzaSyBVIGnRx_8ibT4lkHspo12bpNoeAKt6WFc",
@@ -15,3 +14,4 @@ firebase.initializeApp(config);
 
 export const fb = firebase;
 export const database = firebase.database();
+export const messaging = firebase.messaging();

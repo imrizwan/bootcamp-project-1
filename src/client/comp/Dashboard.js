@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Header from "./Header";
 import { Redirect } from 'react-router-dom'
-import { getFromStorage } from "../utils/storage";
+import { getFromStorage, setInStorage } from "../utils/storage";
 import Loader from './loader';
 import SecureHeader from './secureHeader';
 import { url } from '../Variables';
@@ -65,6 +65,7 @@ export default class Dashboard extends Component {
                 .then(res => res.json())
                 .then(json => {
                     if (json.success) {
+                        setInStorage('olx', { token: "", 'username': "", 'userId': "" })
                         this.setState({
                             token: '',
                             isLoading: false

@@ -104,6 +104,7 @@ class AllMessages extends React.Component {
                 .then(res => res.json())
                 .then(json => {
                     if (json.success) {
+                        setInStorage('olx', { token: "", 'username': "", 'userId': "" })
                         this.setState({
                             token: '',
                             isLoading: false
