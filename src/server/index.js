@@ -1,12 +1,12 @@
 const express = require('express');
 
 const app = express();
-let bodyParser = require('body-parser');
-let functions = require('firebase-functions');
-let admin = require('firebase-admin');
-let webpush = require('web-push');
+const bodyParser = require('body-parser');
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+const webpush = require('web-push');
 const mongoose = require('mongoose');
-let cors = require('cors');
+const cors = require('cors');
 const path = require('path');
 
 mongoose.connect('mongodb://rizwanshaikh:Hello123@ds237192.mlab.com:37192/olxdb', {
@@ -30,7 +30,7 @@ const db = mongoose.connection;
 
 // Check DB Connection
 db.once('open', () => {
-  console.log("Connected to MongoDB");
+  console.log('Connected to MongoDB');
 });
 
 // Check DB Errors
@@ -60,7 +60,7 @@ require('./routes')(app);
 app.use(express.static(path.join(__dirname, 'dist')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/dist/index.html'));
+  res.sendFile(path.join(`${__dirname  }/dist/index.html`));
 });
 
 
@@ -78,7 +78,7 @@ app.get('*', (req, res) => {
 //   })
 // })
 
-let serviceAccount = require('./serviceAccountKey.json');
+const serviceAccount = require('./serviceAccountKey.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -86,7 +86,7 @@ admin.initializeApp({
 });
 
 exports.storeMSG = functions.https.onRequest((request, response) => {
-  cors(request, response, function () {
+  cors(request, response, () => {
     admin.database().ref('Chats').push({
       id: request.body.id,
       title: request.body.title,

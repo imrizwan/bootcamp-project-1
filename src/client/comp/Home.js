@@ -91,29 +91,29 @@ export default class Home extends Component {
 
     fetchAdsFromDatabse = (majorCategory, category) => {
         const obj = getFromStorage('olx');
-        if (obj && obj.userId) {
-            const { userId } = obj;
-            //Getting Ads from Database
-            fetch(url + 'public', {
-                method: 'POST',
-                mode: "cors",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-                },
-                body: JSON.stringify({
-                    userId: userId,
-                    category: category,
-                    majorCategory: majorCategory
+        //if (obj && obj.userId) {
+        //const { userId } = obj;
+        //Getting Ads from Database
+        fetch(url + 'public', {
+            method: 'POST',
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+            body: JSON.stringify({
+                //userId: userId,
+                category: category,
+                majorCategory: majorCategory
+            })
+        })
+            .then(res => res.json())
+            .then(json => {
+                this.setState({
+                    ads: json.ads,
                 })
             })
-                .then(res => res.json())
-                .then(json => {
-                    this.setState({
-                        ads: json.ads,
-                    })
-                })
-        }
+        //  }
     }
 
     showAds = (e) => {
